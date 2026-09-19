@@ -2,10 +2,9 @@
 
 > **Комплексная библиотека графовых алгоритмов для .NET 10+**
 
-[![NuGet](https://img.shields.io/nuget/v/GraphToolkit.svg)](https://www.nuget.org/packages/GraphToolkit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![.NET](https://img.shields.io/badge/.NET-10.0-blue.svg)](https://dotnet.microsoft.com/)
-[![Tests](https://img.shields.io/badge/tests-410%20passing-brightgreen)
+[![Tests](https://img.shields.io/badge/tests-155%20passing-brightgreen)
 [![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![Docs](https://img.shields.io/badge/docs-docfx-blue.svg)]()
 
@@ -652,7 +651,7 @@ docfx serve _site
 ```
 MIT License
 
-Copyright (c) 2024 GraphToolkit Contributors
+Copyright (c) 2026 GraphToolkit Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
