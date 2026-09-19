@@ -1,0 +1,56 @@
+- name: Начало работы
+  items:
+    - name: Установка
+      href: installation.md
+    - name: Быстрый старт
+      href: getting-started.md
+    - name: Ключевые концепции
+      href: core-concepts.md
+
+- name: Базовые алгоритмы
+  items:
+    - name: Обходы графа (BFS, DFS)
+      href: traversal.md
+    - name: Топологическая сортировка
+      href: topological-sort.md
+
+- name: Кратчайшие пути
+  href: shortest-paths.md
+
+- name: Остовные деревья
+  href: minimum-spanning-tree.md
+
+- name: Компоненты связности
+  href: components.md
+
+- name: Потоки в сети
+  items:
+    - name: Максимальный поток
+      href: flows.md
+    - name: Поток минимальной стоимости
+      href: min-cost-flow.md
+    - name: Разрезы
+      href: cuts.md
+
+- name: Паросочетания
+  href: matching.md
+
+- name: Специальные задачи
+  items:
+    - name: Эйлеровы пути
+      href: eulerian.md
+    - name: Гамильтоновы циклы и TSP
+      href: hamiltonian-tsp.md
+    - name: Раскраска графа
+      href: coloring.md
+    - name: Алгоритмы на деревьях
+      href: trees.md
+    - name: Транзитивное замыкание
+      href: closure.md
+
+- name: Дополнительно
+  items:
+    - name: Визуализация
+      href: visualization.md
+    - name: Производительность
+      href: performance.md

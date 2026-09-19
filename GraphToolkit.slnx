@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/GraphToolkit.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/GraphToolkit.Tests/GraphToolkit.Tests.csproj" Id="0cf145b7-3736-4c5f-84e8-f911e19cc5fb" />
+  </Folder>
+  <Folder Name="/Элементы решения/">
+    <File Path=".gitignore" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+  </Folder>
+</Solution>

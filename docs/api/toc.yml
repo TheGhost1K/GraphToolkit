@@ -1,0 +1,196 @@
+### YamlMime:TableOfContent
+items:
+- uid: GraphToolkit
+  name: GraphToolkit
+  type: Namespace
+  items:
+  - uid: GraphToolkit.Closure
+    name: Closure
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Closure.TransitiveClosure
+      name: TransitiveClosure
+      type: Class
+  - uid: GraphToolkit.Coloring
+    name: Coloring
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Coloring.GraphColoring
+      name: GraphColoring
+      type: Class
+  - uid: GraphToolkit.Components
+    name: Components
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Components.BridgesAndArticulation
+      name: BridgesAndArticulation
+      type: Class
+    - uid: GraphToolkit.Components.BridgesAndArticulation.Result`1
+      name: BridgesAndArticulation.Result<T>
+      type: Class
+    - uid: GraphToolkit.Components.ConnectedComponents
+      name: ConnectedComponents
+      type: Class
+    - uid: GraphToolkit.Components.StronglyConnectedComponents
+      name: StronglyConnectedComponents
+      type: Class
+  - uid: GraphToolkit.Core
+    name: Core
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Core.CostFlowNetwork`1
+      name: CostFlowNetwork<T>
+      type: Class
+    - uid: GraphToolkit.Core.Edge`1
+      name: Edge<T>
+      type: Class
+    - uid: GraphToolkit.Core.FlowNetwork`1
+      name: FlowNetwork<T>
+      type: Class
+    - uid: GraphToolkit.Core.Graph`1
+      name: Graph<T>
+      type: Class
+    - uid: GraphToolkit.Core.IGraph`1
+      name: IGraph<T>
+      type: Interface
+    - uid: GraphToolkit.Core.UnionFind`1
+      name: UnionFind<T>
+      type: Class
+  - uid: GraphToolkit.Cut
+    name: Cut
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Cut.StoerWagner
+      name: StoerWagner
+      type: Class
+    - uid: GraphToolkit.Cut.StoerWagner.Result`1
+      name: StoerWagner.Result<T>
+      type: Class
+  - uid: GraphToolkit.Eulerian
+    name: Eulerian
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Eulerian.EulerianPath
+      name: EulerianPath
+      type: Class
+    - uid: GraphToolkit.Eulerian.EulerianPath.PathCheckResult`1
+      name: EulerianPath.PathCheckResult<T>
+      type: Class
+  - uid: GraphToolkit.Flow
+    name: Flow
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Flow.Dinic
+      name: Dinic
+      type: Class
+    - uid: GraphToolkit.Flow.EdmondsKarp
+      name: EdmondsKarp
+      type: Class
+    - uid: GraphToolkit.Flow.FordFulkerson
+      name: FordFulkerson
+      type: Class
+    - uid: GraphToolkit.Flow.MinCostFlow
+      name: MinCostFlow
+      type: Class
+  - uid: GraphToolkit.Hamiltonian
+    name: Hamiltonian
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Hamiltonian.HamiltonianCycle
+      name: HamiltonianCycle
+      type: Class
+    - uid: GraphToolkit.Hamiltonian.Tsp
+      name: Tsp
+      type: Class
+    - uid: GraphToolkit.Hamiltonian.Tsp.Result`1
+      name: Tsp.Result<T>
+      type: Class
+  - uid: GraphToolkit.Matching
+    name: Matching
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Matching.Blossom
+      name: Blossom
+      type: Class
+    - uid: GraphToolkit.Matching.Kuhn
+      name: Kuhn
+      type: Class
+  - uid: GraphToolkit.MinimumSpanningTree
+    name: MinimumSpanningTree
+    type: Namespace
+    items:
+    - uid: GraphToolkit.MinimumSpanningTree.Boruvka
+      name: Boruvka
+      type: Class
+    - uid: GraphToolkit.MinimumSpanningTree.Kruskal
+      name: Kruskal
+      type: Class
+    - uid: GraphToolkit.MinimumSpanningTree.Prim
+      name: Prim
+      type: Class
+  - uid: GraphToolkit.ShortestPaths
+    name: ShortestPaths
+    type: Namespace
+    items:
+    - uid: GraphToolkit.ShortestPaths.AStar
+      name: AStar
+      type: Class
+    - uid: GraphToolkit.ShortestPaths.BellmanFord
+      name: BellmanFord
+      type: Class
+    - uid: GraphToolkit.ShortestPaths.CriticalPath
+      name: CriticalPath
+      type: Class
+    - uid: GraphToolkit.ShortestPaths.Dijkstra
+      name: Dijkstra
+      type: Class
+    - uid: GraphToolkit.ShortestPaths.FloydWarshall
+      name: FloydWarshall
+      type: Class
+    - uid: GraphToolkit.ShortestPaths.FloydWarshall.Result`1
+      name: FloydWarshall.Result<T>
+      type: Class
+  - uid: GraphToolkit.Traversal
+    name: Traversal
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Traversal.Bfs
+      name: Bfs
+      type: Class
+    - uid: GraphToolkit.Traversal.Dfs
+      name: Dfs
+      type: Class
+    - uid: GraphToolkit.Traversal.TopologicalSort
+      name: TopologicalSort
+      type: Class
+  - uid: GraphToolkit.Trees
+    name: Trees
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Trees.Lca`1
+      name: Lca<T>
+      type: Class
+    - uid: GraphToolkit.Trees.TreeMetrics
+      name: TreeMetrics
+      type: Class
+    - uid: GraphToolkit.Trees.TreeMetrics.DiameterResult`1
+      name: TreeMetrics.DiameterResult<T>
+      type: Class
+  - uid: GraphToolkit.Utils
+    name: Utils
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Utils.Extensions
+      name: Extensions
+      type: Class
+    - uid: GraphToolkit.Utils.GraphBuilder`1
+      name: GraphBuilder<T>
+      type: Class
+  - uid: GraphToolkit.Visualization
+    name: Visualization
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Visualization.GraphExporters
+      name: GraphExporters
+      type: Class
+memberLayout: SamePage
