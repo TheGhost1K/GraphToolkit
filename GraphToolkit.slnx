@@ -1,4 +1,20 @@
 <Solution>
+  <Folder Name="/samples/" />
+  <Folder Name="/samples/Clustering/">
+    <Project Path="samples/Clustering/Clustering/Clustering.csproj" Id="3249e72b-d7c0-4662-af49-90d6b6235cff" />
+  </Folder>
+  <Folder Name="/samples/Routing/">
+    <Project Path="samples/Routing/Routing/Routing.csproj" Id="98d3e029-951d-455b-9659-7d06f1a6eec5" />
+  </Folder>
+  <Folder Name="/samples/Scheduling/">
+    <Project Path="samples/Scheduling/Scheduling/Scheduling.csproj" Id="caf88e7f-fb29-41bc-a6c4-78315f6f65e6" />
+  </Folder>
+  <Folder Name="/samples/SocialNetwork/">
+    <Project Path="samples/SocialNetwork/SocialNetwork/SocialNetwork.csproj" Id="8e997216-7cae-4402-a762-c434067b5a00" />
+  </Folder>
+  <Folder Name="/samples/Transportation/">
+    <Project Path="samples/Transportation/Transportation/Transportation.csproj" Id="5a48ae81-13b6-4775-9c9a-18a299f3e1ed" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/GraphToolkit.csproj" />
   </Folder>
