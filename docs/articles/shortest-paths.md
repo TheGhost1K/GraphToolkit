@@ -1,70 +1,172 @@
 ---
-uid: articles.topological-sort
-title: Топологическая сортировка
+uid: articles.shortest-paths
+title: Кратчайшие пути
 ---
 
-# Топологическая сортировка
+# Кратчайшие пути
 
-**Алгоритм:** Кана (BFS по входящим степеням)
-**Сложность:** O(V + E)
-**Применимо к:** DAG (Directed Acyclic Graph)
+Библиотека реализует четыре классических алгоритма поиска кратчайших путей.
 
-## Что это
+## Сравнение
 
-Линейный порядок вершин, при котором для каждого ребра `u → v`
-вершина `u` идёт **до** `v`.
+| Алгоритм — что решает | Время | Отриц. веса | Все пары | Источник |
+|---|---|---|---|---|
+| Дейкстра — от одного источника | O((V+E) log V) | ❌ | ❌ | Один |
+| Беллман-Форд — с отрицательными весами | O(V · E) | ✅ | ❌ | Один |
+| A* — эвристический поиск | Зависит от эвристики | ❌ | ❌ | Один |
+| Флойд-Уоршелл — все пары | O(V³) | ✅ | ✅ | — |
 
-## Пример
+**Обозначения:**
+- **Отриц. веса** — поддерживает ли алгоритм отрицательные веса рёбер
+- **Все пары** — вычисляет ли сразу расстояния между всеми парами
+- **Источник** — нужен ли конкретный начальный узел
+
+### Быстрый выбор
+
+```
+Отрицательные веса?
+├─ Да → Флойд-Уоршелл (все пары)
+│       или Беллман-Форд (один источник)
+└─ Нет → Нужны все пары?
+        ├─ Да → Флойд-Уоршелл
+        └─ Нет → Есть эвристика?
+                ├─ Да → A*
+                └─ Нет → Дейкстра
+```
+
+---
+
+## Дейкстра
+
+Классический алгоритм для графов с **неотрицательными** весами.
 
 ```csharp
-using GraphToolkit.Traversal;
+using GraphToolkit.ShortestPaths;
 using GraphToolkit.Utils;
 
-var dag = new GraphBuilder<string>(isDirected: true)
-    .AddEdge("рубашка", "галстук")
-    .AddEdge("галстук", "пиджак")
-    .AddEdge("носки", "ботинки")
-    .AddEdge("брюки", "ботинки")
-    .AddEdge("брюки", "пиджак")
+var graph = new GraphBuilder<string>(isDirected: true)
+    .AddEdge("A", "B", 4)
+    .AddEdge("A", "C", 2)
+    .AddEdge("B", "C", 5)
+    .AddEdge("B", "D", 10)
+    .AddEdge("C", "E", 3)
+    .AddEdge("E", "D", 4)
     .Build();
 
-var order = TopologicalSort.Sort(dag);
-Console.WriteLine(string.Join(" -> ", order));
+var path = Dijkstra.FindPath(graph, "A", "D");
+Console.WriteLine(string.Join(" -> ", path));
+// A -> C -> E -> D
+
+var (distances, predecessors) = Dijkstra.Compute(graph, "A");
+foreach (var (v, d) in distances)
+    Console.WriteLine($"{v}: {d}");
 ```
 
-## Обнаружение циклов
+**Реализация:** использует `PriorityQueue<TElement, TPriority>` (двоичная
+куча) — O((V + E) log V).
 
-Метод возвращает `null`, если граф содержит цикл:
+---
+
+## Беллман-Форд
+
+Поддерживает **отрицательные веса** и **детектирует отрицательные циклы**.
 
 ```csharp
-var cyclic = new GraphBuilder<int>(isDirected: true)
-    .AddEdge(1, 2)
-    .AddEdge(2, 3)
-    .AddEdge(3, 1)  // цикл!
+var graph = new GraphBuilder<string>(isDirected: true)
+    .AddEdge("A", "B", 4)
+    .AddEdge("A", "C", 2)
+    .AddEdge("B", "C", -3)  // отрицательный вес
+    .AddEdge("C", "D", 1)
     .Build();
 
-var order = TopologicalSort.Sort(cyclic);
-if (order == null)
-    Console.WriteLine("Граф содержит цикл");
+var (dist, prev, hasCycle) = BellmanFord.Compute(graph, "A");
+
+if (hasCycle)
+    Console.WriteLine("Обнаружен отрицательный цикл!");
+else
+    foreach (var (v, d) in dist)
+        Console.WriteLine($"{v}: {d}");
 ```
 
-## Топологические уровни
+> [!WARNING]
+> Если обнаружен отрицательный цикл, достижимый из источника,
+> кратчайшие расстояния не определены.
+
+---
+
+## A*
+
+Эвристический поиск — как Дейкстра, но с оценкой расстояния до цели.
 
 ```csharp
-var levels = TopologicalSort.ComputeLevels(dag);
-foreach (var (v, level) in levels)
-    Console.WriteLine($"{v}: уровень {level}");
+using GraphToolkit.ShortestPaths;
+
+var coords = new Dictionary<string, (double X, double Y)>
+{
+    ["A"] = (0, 0),
+    ["B"] = (1, 1),
+    ["C"] = (2, 0),
+    ["D"] = (3, 1)
+};
+
+double Heuristic(string a, string b)
+{
+    var (ax, ay) = coords[a];
+    var (bx, by) = coords[b];
+    return Math.Sqrt((ax - bx) * (ax - bx) + (ay - by) * (ay - by));
+}
+
+var path = AStar.FindPath(graph, "A", "D", Heuristic);
 ```
 
-## Применения
+> [!IMPORTANT]
+> Эвристика должна быть допустимой (admissible): не переоценивать
+> реальное расстояние до цели.
 
-- Планирование задач с зависимостями
-- Порядок сборки модулей / пакетов
-- Учебный план с пререквизитами
-- Компиляция исходников (Makefile, MSBuild)
+---
+
+## Флойд-Уоршелл
+
+Все пары кратчайших путей сразу.
+
+```csharp
+var (dist, next, vertices) = FloydWarshall.Compute(graph);
+
+var path = FloydWarshall.FindPath(graph, "A", "D", out double distance);
+Console.WriteLine($"{string.Join(" -> ", path)} ({distance})");
+// A -> C -> E -> D (9)
+```
+
+**Когда использовать:**
+- Нужны расстояния между всеми парами вершин
+- Граф плотный (E ≈ V²)
+- Есть отрицательные веса (но без отрицательных циклов)
+- V невелико (< 500)
+
+---
+
+## Практические рекомендации
+
+### Выбор алгоритма
+
+```
+Отрицательные веса?
+├─ Да → Флойд-Уоршелл (все пары) или Беллман-Форд (один источник)
+└─ Нет → Один источник?
+         ├─ Да → Есть эвристика? → A* / Дейкстра
+         └─ Нет → Флойд-Уоршелл
+```
+
+### Работа с недостижимыми вершинами
+
+```csharp
+var (dist, _) = Dijkstra.Compute(graph, "A");
+if (double.IsPositiveInfinity(dist["Z"]))
+    Console.WriteLine("Вершина Z недостижима");
+```
 
 ## См. также
 
-- [Обходы графа](traversal.md)
-- [Кратчайшие пути](shortest-paths.md)
-- [Транзитивное замыкание](closure.md)
+- [Топологическая сортировка](topological-sort.md)
+- [MST](minimum-spanning-tree.md)
+- [Производительность](performance.md)

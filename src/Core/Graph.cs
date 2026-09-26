@@ -124,5 +124,118 @@
                 g.AddEdge(e.To, e.From, e.Weight);
             return g;
         }
+
+        /// <summary>
+        /// Создаёт полную копию графа: те же вершины, рёбра и веса.
+        /// </summary>
+        /// <returns>Новый независимый граф с теми же данными.</returns>
+        /// <remarks>
+        /// Возвращаемый граф не разделяет внутренние структуры с исходным —
+        /// изменение копии не влияет на оригинал и наоборот.
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// var copy = graph.Clone();
+        /// copy.AddEdge("X", "Y");           // оригинал не меняется
+        /// Console.WriteLine(graph.VertexCount);  // без X, Y
+        /// </code>
+        /// </example>
+        public Graph<T> Clone()
+        {
+            var g = new Graph<T>(IsDirected);
+            foreach (var v in Vertices) g.AddVertex(v);
+            foreach (var e in _edges)
+                g.AddEdge(e.From, e.To, e.Weight);
+            return g;
+        }
+
+        /// <summary>
+        /// Создаёт неориентированную копию графа.
+        /// </summary>
+        /// <returns>
+        /// Неориентированный граф со всеми рёбрами исходного.
+        /// Каждое ориентированное ребро превращается в неориентированное.
+        /// </returns>
+        /// <remarks>
+        /// Если исходный граф уже неориентированный — эквивалентно <see cref="Clone"/>.
+        /// Если в исходном графе есть рёбра <c>u → v</c> и <c>v → u</c> с разными весами,
+        /// в результат добавится ребро с весом первого добавленного.
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// var directed = new Graph&lt;string&gt;(isDirected: true);
+        /// directed.AddEdge("A", "B", 1);
+        /// directed.AddEdge("B", "A", 5);
+        /// 
+        /// var undirected = directed.ToUndirected();
+        /// // В undirected будет только одно ребро A—B (вес 1)
+        /// </code>
+        /// </example>
+        public Graph<T> ToUndirected()
+        {
+            if (!IsDirected) return Clone();
+
+            var g = new Graph<T>(isDirected: false);
+            foreach (var v in Vertices) g.AddVertex(v);
+
+            // Хеш-сет для дедупликации пар (u, v) — чтобы не добавить
+            // A—B дважды, если были A→B и B→A
+            var seen = new HashSet<(T, T)>();
+            foreach (var e in _edges)
+            {
+                var pair = NormalizePair(e.From, e.To);
+                if (seen.Add(pair))
+                    g.AddEdge(pair.Item1, pair.Item2, e.Weight);
+            }
+            return g;
+        }
+
+        /// <summary>
+        /// Создаёт ориентированную копию графа.
+        /// </summary>
+        /// <returns>
+        /// Ориентированный граф со всеми рёбрами исходного.
+        /// Для неориентированного графа каждое ребро <c>u — v</c> превращается
+        /// в два ориентированных: <c>u → v</c> и <c>v → u</c>.
+        /// </returns>
+        /// <remarks>
+        /// Если исходный граф уже ориентированный — эквивалентно <see cref="Clone"/>.
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// var undirected = new Graph&lt;string&gt;();
+        /// undirected.AddEdge("A", "B", 3);
+        /// 
+        /// var directed = undirected.ToDirected();
+        /// // В directed будут рёбра A→B и B→A с весом 3
+        /// </code>
+        /// </example>
+        public Graph<T> ToDirected()
+        {
+            if (IsDirected) return Clone();
+
+            var g = new Graph<T>(isDirected: true);
+            foreach (var v in Vertices) g.AddVertex(v);
+
+            foreach (var e in _edges)
+            {
+                g.AddEdge(e.From, e.To, e.Weight);
+                g.AddEdge(e.To, e.From, e.Weight);
+            }
+            return g;
+        }
+
+        /// <summary>
+        /// Нормализует пару вершин так, чтобы меньшая по хешу была первой.
+        /// Нужно для дедупликации неориентированных рёбер.
+        /// </summary>
+        private static (T, T) NormalizePair(T a, T b)
+        {
+            int ha = a.GetHashCode();
+            int hb = b.GetHashCode();
+            if (ha != hb) return ha < hb ? (a, b) : (b, a);
+            // При равных хешах — сравнение через default comparer
+            return Comparer<T>.Default.Compare(a, b) <= 0 ? (a, b) : (b, a);
+        }
     }
 }

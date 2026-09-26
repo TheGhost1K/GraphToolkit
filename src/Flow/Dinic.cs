@@ -11,21 +11,15 @@ namespace GraphToolkit.Flow
     /// </remarks>
     public static class Dinic
     {
-        private sealed class Arc
-        {
-            public int To;
-            public int Rev;
-            public double Cap;
-        }
-
         /// <summary>
         /// Вычисляет максимальный поток.
         /// </summary>
-        /// <typeparam name="T">Тип данных вершины.</typeparam>
-        /// <param name="network">Сеть.</param>
-        /// <param name="source">Источник.</param>
-        /// <param name="sink">Сток.</param>
-        /// <returns>Величина максимального потока.</returns>
+        /// <remarks>
+        /// <b>Модифицирует</b> <paramref name="network"/>: остаточные пропускные
+        /// способности уменьшаются на величину прошедшего потока.
+        /// Используйте <see cref="FlowNetwork{T}.Clone"/> для сохранения
+        /// исходного состояния.
+        /// </remarks>
         public static double Compute<T>(FlowNetwork<T> network, T source, T sink)
             where T : notnull
         {
@@ -34,81 +28,69 @@ namespace GraphToolkit.Flow
             var index = vertices.Select((v, i) => (v, i))
                 .ToDictionary(x => x.v, x => x.i);
 
-            var graph = new List<Arc>[n];
-            for (int i = 0; i < n; i++) graph[i] = new List<Arc>();
-
-            void AddArc(int from, int to, double cap)
-            {
-                var a = new Arc { To = to, Cap = cap, Rev = graph[to].Count };
-                var b = new Arc { To = from, Cap = 0, Rev = graph[from].Count };
-                graph[from].Add(a);
-                graph[to].Add(b);
-            }
-
-            var seen = new HashSet<(int, int)>();
-            foreach (var u in vertices)
-                foreach (var v in network.Neighbors(u))
-                {
-                    double cap = network.GetCapacity(u, v);
-                    if (cap > 0)
-                    {
-                        int iu = index[u], iv = index[v];
-                        if (seen.Add((iu, iv)))
-                            AddArc(iu, iv, cap);
-                    }
-                }
-
             int s = index[source], t = index[sink];
             double flow = 0;
-            var level = new int[n];
-            var iter = new int[n];
 
-            bool Bfs()
+            const double EPS = 1e-12;
+
+            while (true)
             {
+                // BFS: строим уровневый граф в остаточной сети
+                var level = new int[n];
                 for (int i = 0; i < n; i++) level[i] = -1;
                 level[s] = 0;
-                var q = new Queue<int>();
-                q.Enqueue(s);
-                while (q.Count > 0)
-                {
-                    int u = q.Dequeue();
-                    foreach (var e in graph[u])
-                        if (e.Cap > 1e-12 && level[e.To] < 0)
-                        {
-                            level[e.To] = level[u] + 1;
-                            q.Enqueue(e.To);
-                        }
-                }
-                return level[t] >= 0;
-            }
+                var queue = new Queue<int>();
+                queue.Enqueue(s);
 
-            double Dfs(int u, double f)
-            {
-                if (u == t) return f;
-                for (; iter[u] < graph[u].Count; iter[u]++)
+                while (queue.Count > 0)
                 {
-                    var e = graph[u][iter[u]];
-                    if (e.Cap > 1e-12 && level[u] < level[e.To])
+                    int u = queue.Dequeue();
+                    foreach (var v in network.Neighbors(vertices[u]))
                     {
-                        double d = Dfs(e.To, Math.Min(f, e.Cap));
-                        if (d > 1e-12)
+                        int vi = index[v];
+                        if (level[vi] < 0 && network.GetCapacity(vertices[u], v) > EPS)
                         {
-                            e.Cap -= d;
-                            graph[e.To][e.Rev].Cap += d;
-                            return d;
+                            level[vi] = level[u] + 1;
+                            queue.Enqueue(vi);
                         }
                     }
                 }
-                return 0;
-            }
 
-            while (Bfs())
-            {
-                for (int i = 0; i < n; i++) iter[i] = 0;
+                if (level[t] < 0) break;   // путь до стока не найден
+
+                // iter[u] — указатель на текущее ребро в уровневом графе
+                var iter = new int[n];
+
+                // DFS: ищем блокирующий поток
+                double BlockingFlow(int u, double pushed)
+                {
+                    if (u == t) return pushed;
+
+                    var neighbors = network.Neighbors(vertices[u]).ToList();
+                    for (; iter[u] < neighbors.Count; iter[u]++)
+                    {
+                        var v = neighbors[iter[u]];
+                        int vi = index[v];
+                        double cap = network.GetCapacity(vertices[u], v);
+
+                        if (cap > EPS && level[vi] == level[u] + 1)
+                        {
+                            double tr = BlockingFlow(vi, Math.Min(pushed, cap));
+                            if (tr > EPS)
+                            {
+                                network.UpdateCapacity(vertices[u], v, tr);
+                                return tr;
+                            }
+                        }
+                    }
+                    return 0;
+                }
+
                 double f;
-                while ((f = Dfs(s, double.PositiveInfinity)) > 1e-12)
+                while ((f = BlockingFlow(s, double.PositiveInfinity)) > EPS)
                     flow += f;
             }
+
             return flow;
         }
 
@@ -123,8 +105,10 @@ namespace GraphToolkit.Flow
         public static HashSet<T> MinCut<T>(FlowNetwork<T> network, T source, T sink)
             where T : notnull
         {
-            EdmondsKarp.Compute(network, source, sink);
+            // Запускаем max-flow — сеть теперь в состоянии с максимальным потоком
+            Compute(network, source, sink);
 
+            // BFS по остаточному графу
             var reachable = new HashSet<T> { source };
             var queue = new Queue<T>();
             queue.Enqueue(source);
@@ -139,22 +123,6 @@ namespace GraphToolkit.Flow
                     }
             }
             return reachable;
-            //Compute(network, source, sink);
-
-            //var reachable = new HashSet<T> { source };
-            //var queue = new Queue<T>();
-            //queue.Enqueue(source);
-            //while (queue.Count > 0)
-            //{
-            //    var u = queue.Dequeue();
-            //    foreach (var v in network.Neighbors(u))
-            //        if (!reachable.Contains(v) && network.GetCapacity(u, v) > 1e-12)
-            //        {
-            //            reachable.Add(v);
-            //            queue.Enqueue(v);
-            //        }
-            //}
-            //return reachable;
         }
     }
 }

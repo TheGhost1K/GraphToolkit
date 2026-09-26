@@ -38,6 +38,9 @@ items:
     name: Core
     type: Namespace
     items:
+    - uid: GraphToolkit.Core.AdjacencyMatrixGraph`1
+      name: AdjacencyMatrixGraph<T>
+      type: Class
     - uid: GraphToolkit.Core.CostFlowNetwork`1
       name: CostFlowNetwork<T>
       type: Class
@@ -60,6 +63,12 @@ items:
     name: Cut
     type: Namespace
     items:
+    - uid: GraphToolkit.Cut.GomoryHu
+      name: GomoryHu
+      type: Class
+    - uid: GraphToolkit.Cut.GomoryHu.Result`1
+      name: GomoryHu.Result<T>
+      type: Class
     - uid: GraphToolkit.Cut.StoerWagner
       name: StoerWagner
       type: Class
@@ -112,6 +121,12 @@ items:
     - uid: GraphToolkit.Matching.Blossom
       name: Blossom
       type: Class
+    - uid: GraphToolkit.Matching.HungarianAlgorithm
+      name: HungarianAlgorithm
+      type: Class
+    - uid: GraphToolkit.Matching.HungarianAlgorithm.Result
+      name: HungarianAlgorithm.Result
+      type: Class
     - uid: GraphToolkit.Matching.Kuhn
       name: Kuhn
       type: Class
@@ -150,6 +165,16 @@ items:
     - uid: GraphToolkit.ShortestPaths.FloydWarshall.Result`1
       name: FloydWarshall.Result<T>
       type: Class
+  - uid: GraphToolkit.Structures
+    name: Structures
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Structures.FenwickTree`1
+      name: FenwickTree<T>
+      type: Class
+    - uid: GraphToolkit.Structures.SegmentTree`1
+      name: SegmentTree<T>
+      type: Class
   - uid: GraphToolkit.Traversal
     name: Traversal
     type: Namespace
@@ -167,8 +192,20 @@ items:
     name: Trees
     type: Namespace
     items:
+    - uid: GraphToolkit.Trees.CentroidDecomposition`1
+      name: CentroidDecomposition<T>
+      type: Class
+    - uid: GraphToolkit.Trees.HeavyLightDecomposition`1
+      name: HeavyLightDecomposition<T>
+      type: Class
+    - uid: GraphToolkit.Trees.HldPathQueries`2
+      name: HldPathQueries<T, TValue>
+      type: Class
     - uid: GraphToolkit.Trees.Lca`1
       name: Lca<T>
+      type: Class
+    - uid: GraphToolkit.Trees.LinkCutTree`1
+      name: LinkCutTree<T>
       type: Class
     - uid: GraphToolkit.Trees.TreeMetrics
       name: TreeMetrics

@@ -32,7 +32,7 @@
     - name: Разрезы
       href: cuts.md
 
-- name: Паросочетания
+- name: Паросочетания и назначения
   href: matching.md
 
 - name: Специальные задачи
@@ -52,5 +52,13 @@
   items:
     - name: Визуализация
       href: visualization.md
+    - name: Преобразования графа
+      href: io-and-conversion.md
+    - name: Матрица смежности
+      href: adjacency-matrix.md
+    - name: Деревья отрезков и Fenwick
+      href: structures.md
+    - name: Продвинутые алгоритмы на деревьях
+      href: advanced-trees.md
     - name: Производительность
       href: performance.md

@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![.NET](https://img.shields.io/badge/.NET-10.0-blue.svg)](https://dotnet.microsoft.com/)
-[![Tests](https://img.shields.io/badge/tests-155%20passing-brightgreen)
+[![Tests](https://img.shields.io/badge/tests-256%20passing-brightgreen)
 [![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![Docs](https://img.shields.io/badge/docs-docfx-blue.svg)]()
 
@@ -31,8 +31,11 @@ GraphToolkit — это production-ready библиотека с **40+ клас�
   - [Гамильтоновы циклы и TSP](#гамильтоновы-циклы-и-tsp)
   - [Раскраска](#раскраска)
   - [Деревья](#деревья)
+  - [Продвинутые алгоритмы на деревьях](#продвинутые-алгоритмы-на-деревьях)
+  - [Деревья отрезков и Fenwick](#деревья-отрезков-и-fenwick)
   - [Транзитивное замыкание](#транзитивное-замыкание)
   - [Визуализация](#визуализация)
+  - [Преобразования и альтернативные представления](#преобразования-и-альтернативные-представления)
 - [Полная таблица алгоритмов](#полная-таблица-алгоритмов)
 - [Архитектура](#архитектура)
 - [Производительность](#производительность)
@@ -44,16 +47,49 @@ GraphToolkit — это production-ready библиотека с **40+ клас�
 
 ## Возможности
 
-- ✅ **40+ алгоритмов** — от BFS до Blossom и Штёра-Вагнера
-- ✅ **Универсальность** — generic `Graph<T>` для любого типа вершин
+**GraphToolkit** — это production-ready библиотека графовых алгоритмов
+для .NET, покрывающая весь классический курс теории графов: от базовых
+обходов до продвинутых задач (min-cost flow, все пары min-cut,
+Link-Cut Tree, оптимальное назначение). Zero-dependency, полностью
+документирована и снабжена юнит-тестами.
+
+- ✅ **60+ алгоритмов** — от BFS и Дейкстры до Гомори-Ху, Диница, Blossom, Link-Cut Tree и Гомори-Ху
+- ✅ **Универсальность** — generic `Graph<T>` для любого типа вершин (`int`, `string`, `record`, …)
 - ✅ **Ориентированные и неориентированные** графы
 - ✅ **Взвешенные и невзвешенные** рёбра
+- ✅ **Две реализации графа** — `Graph<T>` (список смежности) и `AdjacencyMatrixGraph<T>` (матрица)
 - ✅ **Fluent-билдер** для лаконичного создания графов
+- ✅ **Структуры данных** — Segment Tree (с lazy propagation) и Fenwick Tree
+- ✅ **Продвинутые алгоритмы на деревьях** — Centroid Decomposition, HLD, HldPathQueries, Link-Cut Tree
+- ✅ **Min-cost flow** — SPFA и Дейкстра с потенциалами (Джонсон)
+- ✅ **Все пары min-cut** — алгоритм Гомори-Ху поверх max-flow
+- ✅ **Zero-dependency** — только BCL, никаких сторонних пакетов
+- ✅ **Nullable-aware** — полная поддержка NRT (`<Nullable>enable</Nullable>`)
 - ✅ **Визуализация** — экспорт в Mermaid и GraphViz DOT
-- ✅ **Zero-dependency** — только BCL
-- ✅ **Nullable-aware** — полная поддержка NRT
-- ✅ **Полная XML-документация** и интеграция с DocFX
-- ✅ **.NET 10+** — использует `PriorityQueue`, `record`, `HashCode.Combine`
+- ✅ **Полная XML-документация** — интеграция с DocFX
+- ✅ **256 юнит-тестов** — покрытие всех модулей
+- ✅ **.NET 10** — использует `PriorityQueue`, `record`, `HashCode.Combine`
+
+### Разделы возможностей
+
+| Область | Что входит |
+|---|---|
+| **Обходы и порядок** | BFS, DFS, топологическая сортировка |
+| **Кратчайшие пути** | Дейкстра, Беллман-Форд, A*, Флойд-Уоршелл, критический путь |
+| **Остовные деревья** | Краскал, Прим, Борувка |
+| **Компоненты** | Связные компоненты, SCC (Косараю), мосты, точки сочленения |
+| **Потоки** | Форд-Фалкерсон, Эдмондс-Карп, Диниц, min-cut |
+| **Min-cost flow** | SPFA, Дейкстра с потенциалами |
+| **Разрезы** | Штёр-Вагнер (глобальный), Гомори-Ху (все пары) |
+| **Паросочетания** | Куна, Blossom, Венгерский (назначения) |
+| **Эйлеровы пути** | Проверка + алгоритм Хиерхольцера |
+| **Гамильтоновы / TSP** | Backtracking, ветви и границы, ближайший сосед + 2-opt |
+| **Раскраска** | Жадная (Уэлш-Пауэлл), точная (DSATUR), двудольность |
+| **Деревья** | LCA, диаметр, центроид, Centroid Decomposition, HLD, Link-Cut Tree |
+| **Структуры данных** | Segment Tree (с lazy), Fenwick Tree |
+| **Замыкания** | Транзитивное замыкание и сокращение |
+| **Преобразования** | Клонирование, транспонирование, смена направленности |
+| **Визуализация** | DOT, Mermaid, матрица/список смежности |
 
 ---
 
@@ -323,6 +359,9 @@ var result = StoerWagner.Compute(undirectedGraph);
 Console.WriteLine($"Min-cut: {result.MinCut}");
 Console.WriteLine($"Partition A: {string.Join(",", result.PartitionA)}");
 Console.WriteLine($"Partition B: {string.Join(",", result.PartitionB)}");
+// Все пары min-cut (Гомори-Ху) — O(V · MaxFlow)
+var gomoryTree = GomoryHu.Compute(undirectedGraph);
+Console.WriteLine(gomoryTree.MinCut("A", "C"));
 ```
 
 ### Паросочетания
@@ -403,6 +442,65 @@ Console.WriteLine($"Диаметр: {diameter.Distance}");
 var centroid = TreeMetrics.Centroid(tree);
 ```
 
+### Продвинутые алгоритмы на деревьях
+
+```csharp
+using GraphToolkit.Trees;
+
+// Центроидная декомпозиция — O(log V) на запрос расстояния
+var cd = new CentroidDecomposition<int>(tree);
+Console.WriteLine(cd.Distance(4, 7));
+
+// Heavy-Light Decomposition — O(log V) на LCA и пути
+var hld = new HeavyLightDecomposition<int>(tree, root: 1);
+Console.WriteLine(hld.Lca(4, 7));
+var path = hld.PathVertices(4, 7);
+
+// HLD + запросы на путях через дерево отрезков
+var pathQ = new HldPathQueries<int, long>(
+    tree, root: 1,
+    valueOf: v => weights[v],
+    combine: (a, b) => a + b,
+    identity: 0);
+Console.WriteLine(pathQ.Query(4, 7));
+pathQ.Update(4, 100);
+
+// Link-Cut Tree — динамический лес
+var lct = new LinkCutTree<int>();
+lct.AddVertex(1); lct.AddVertex(2);
+lct.SetValue(1, 10); lct.SetValue(2, 20);
+lct.Link(1, 2);
+Console.WriteLine(lct.PathSum(1, 2));   // 30
+lct.Cut(1, 2);
+```
+
+### Деревья отрезков и Fenwick
+
+```csharp
+using GraphToolkit.Structures;
+
+// Segment Tree — запросы min/max/sum + range update
+var st = new SegmentTree<long>(
+    values: new long[] { 1, 2, 3, 4, 5 },
+    combine: (a, b) => a + b,
+    identity: 0);
+
+Console.WriteLine(st.Query(1, 4));   // 9
+st.Update(2, 10);
+Console.WriteLine(st.Query(0, 5));   // 22
+
+// Fenwick — быстрее для сумм
+var bit = new FenwickTree<long>(
+    values: new long[] { 1, 2, 3, 4, 5 },
+    add: (a, b) => a + b,
+    identity: 0,
+    subtract: (a, b) => a - b);
+
+Console.WriteLine(bit.RangeAggregate(1, 4));   // 9
+bit.Add(2, 10);
+Console.WriteLine(bit.RangeAggregate(1, 4));   // 19
+```
+
 ### Транзитивное замыкание
 
 ```csharp
@@ -436,47 +534,84 @@ string matrix = GraphExporters.ToAdjacencyMatrix(graph);
 string list = GraphExporters.ToAdjacencyList(graph);
 ```
 
+### Преобразования и альтернативные представления
+
+```csharp
+using GraphToolkit.Core;
+
+// Клонирование
+var copy = graph.Clone();
+
+// Смена направленности
+var undirected = directedGraph.ToUndirected();
+var directed = undirectedGraph.ToDirected();
+var transposed = graph.Transpose();
+
+// Матрица смежности (для плотных графов)
+var matrix = new AdjacencyMatrixGraph<string>(isDirected: true);
+matrix.AddEdge("A", "B", 4);
+// Работает с любым алгоритмом GraphToolkit
+
+// Задача о назначениях (Венгерский алгоритм)
+using GraphToolkit.Matching;
+var assignment = HungarianAlgorithm.Solve(costMatrix);
+Console.WriteLine($"Минимальная стоимость: {assignment.TotalCost}");
+
 ---
 
 ## Полная таблица алгоритмов
 
-| Категория | Алгоритм | Сложность | Файл |
+| Категория | Алгоритм — что решает | Сложность | Файл |
 |---|---|---|---|
-| **Обходы** | BFS | O(V + E) | `Traversal/Bfs.cs` |
-| | DFS | O(V + E) | `Traversal/Dfs.cs` |
-| | Топологическая сортировка | O(V + E) | `Traversal/TopologicalSort.cs` |
-| **Кратчайшие пути** | Дейкстра | O((V+E) log V) | `ShortestPaths/Dijkstra.cs` |
-| | Беллман-Форд | O(V · E) | `ShortestPaths/BellmanFord.cs` |
-| | A* | Зависит от эвристики | `ShortestPaths/AStar.cs` |
-| | Флойд-Уоршелл | O(V³) | `ShortestPaths/FloydWarshall.cs` |
-| | Критический путь (DAG) | O(V + E) | `ShortestPaths/CriticalPath.cs` |
-| **MST** | Краскал | O(E log E) | `MinimumSpanningTree/Kruskal.cs` |
-| | Прим | O((V+E) log V) | `MinimumSpanningTree/Prim.cs` |
-| | Борувка | O(E log V) | `MinimumSpanningTree/Boruvka.cs` |
+| **Обходы** | BFS — обход в ширину | O(V + E) | `Traversal/Bfs.cs` |
+| | DFS — обход в глубину | O(V + E) | `Traversal/Dfs.cs` |
+| | Топологическая сортировка (Кана) | O(V + E) | `Traversal/TopologicalSort.cs` |
+| **Кратчайшие пути** | Дейкстра — от одного источника | O((V+E) log V) | `ShortestPaths/Dijkstra.cs` |
+| | Беллман-Форд — с отрицательными весами | O(V · E) | `ShortestPaths/BellmanFord.cs` |
+| | A* — эвристический поиск | Зависит от эвристики | `ShortestPaths/AStar.cs` |
+| | Флойд-Уоршелл — все пары | O(V³) | `ShortestPaths/FloydWarshall.cs` |
+| | Критический путь — самый длинный в DAG | O(V + E) | `ShortestPaths/CriticalPath.cs` |
+| **MST** | Краскал — разреженные графы | O(E log E) | `MinimumSpanningTree/Kruskal.cs` |
+| | Прим — плотные графы | O((V+E) log V) | `MinimumSpanningTree/Prim.cs` |
+| | Борувка — параллелизуемый | O(E log V) | `MinimumSpanningTree/Boruvka.cs` |
 | **Компоненты** | Связные компоненты | O(V + E) | `Components/ConnectedComponents.cs` |
-| | SCC (Косараю) | O(V + E) | `Components/StronglyConnectedComponents.cs` |
-| | Мосты и точки сочленения | O(V + E) | `Components/BridgesAndArticulation.cs` |
-| **Потоки** | Форд-Фалкерсон | O(E · f) | `Flow/FordFulkerson.cs` |
-| | Эдмондс-Карп | O(V · E²) | `Flow/EdmondsKarp.cs` |
-| | Диниц | O(V² · E) | `Flow/Dinic.cs` |
-| | Min-cost flow (SPFA) | O(V · E · F) | `Flow/MinCostFlow.cs` |
-| | Min-cost flow (Дейкстра+потенциалы) | O(F · E · log V) | `Flow/MinCostFlow.cs` |
-| **Разрезы** | Штёр-Вагнер | O(V³) | `Cut/StoerWagner.cs` |
-| **Паросочетания** | Куна (двудольный) | O(V · E) | `Matching/Kuhn.cs` |
-| | Blossom / Эдмондс | O(V³) | `Matching/Blossom.cs` |
-| **Эйлеровы** | Проверка + Хиерхольцер | O(V + E) | `Eulerian/EulerianPath.cs` |
-| **Гамильтоновы** | Цикл / путь (backtracking) | O(V!) | `Hamiltonian/HamiltonianCycle.cs` |
-| | TSP ветви и границы | O(V² · 2^V) | `Hamiltonian/Tsp.cs` |
-| | TSP ближ. сосед + 2-opt | O(V²) | `Hamiltonian/Tsp.cs` |
+| | SCC (Косараю) — сильная связность | O(V + E) | `Components/StronglyConnectedComponents.cs` |
+| | Мосты и точки сочленения (Тарьян) | O(V + E) | `Components/BridgesAndArticulation.cs` |
+| **Потоки** | Форд-Фалкерсон — классика | O(E · f) | `Flow/FordFulkerson.cs` |
+| | Эдмондс-Карп — BFS-версия | O(V · E²) | `Flow/EdmondsKarp.cs` |
+| | Диниц — быстрейший из классических | O(V² · E) | `Flow/Dinic.cs` |
+| **Min-cost flow** | SPFA — с отрицательными стоимостями | O(V · E · F) | `Flow/MinCostFlow.cs` |
+| | Дейкстра с потенциалами (Джонсон) | O(F · E · log V) | `Flow/MinCostFlow.cs` |
+| **Разрезы** | Штёр-Вагнер — глобальный min-cut | O(V³) | `Cut/StoerWagner.cs` |
+| | Гомори-Ху — все пары min-cut | O(V · MaxFlow) | `Cut/GomoryHu.cs` |
+| **Паросочетания** | Куна — макс. паросочетание (двудольный) | O(V · E) | `Matching/Kuhn.cs` |
+| | Blossom / Эдмондс — макс. паросочетание (общий) | O(V³) | `Matching/Blossom.cs` |
+| | Венгерский — оптимальное назначение | O(V³) | `Matching/HungarianAlgorithm.cs` |
+| **Эйлеровы** | Проверка + Хиерхольцер — эйлеров путь | O(V + E) | `Eulerian/EulerianPath.cs` |
+| **Гамильтоновы** | Цикл / путь — перебор с возвратом | O(V!) | `Hamiltonian/HamiltonianCycle.cs` |
+| | TSP — ветви и границы (точный) | O(V² · 2^V) | `Hamiltonian/Tsp.cs` |
+| | TSP — ближайший сосед + 2-opt | O(V²) | `Hamiltonian/Tsp.cs` |
 | **Раскраска** | Жадная (Уэлш-Пауэлл) | O(V² + E) | `Coloring/GraphColoring.cs` |
 | | Точная (DSATUR) | экспоненциальная | `Coloring/GraphColoring.cs` |
 | | Проверка двудольности | O(V + E) | `Coloring/GraphColoring.cs` |
-| **Деревья** | LCA (бинарный подъём) | O(V log V) + O(log V) | `Trees/Lca.cs` |
-| | Диаметр | O(V log V) | `Trees/TreeMetrics.cs` |
-| | Центроид | O(V) | `Trees/TreeMetrics.cs` |
+| **Деревья** | LCA — наименьший общий предок | O(V log V) + O(log V) | `Trees/Lca.cs` |
+| | Диаметр дерева | O(V log V) | `Trees/TreeMetrics.cs` |
+| | Центроид дерева | O(V) | `Trees/TreeMetrics.cs` |
+| | **Центроидная декомпозиция** | O(V log V) + O(log V) запрос | `Trees/CentroidDecomposition.cs` |
+| | **Heavy-Light Decomposition** | O(V) + O(log V) запрос | `Trees/HeavyLightDecomposition.cs` |
+| | **HLD + запросы на путях** | O(V) + O(log² V) запрос | `Trees/HldPathQueries.cs` |
+| | **Link-Cut Tree** | O(log V) амортиз. | `Trees/LinkCutTree.cs` |
+| **Структуры** | Segment Tree — запросы на отрезках | O(log n) | `Structures/SegmentTree.cs` |
+| | Fenwick Tree — префиксные суммы | O(log n) | `Structures/FenwickTree.cs` |
 | **Замыкания** | Транзитивное замыкание | O(V³) | `Closure/TransitiveClosure.cs` |
-| | Транзитивное сокращение | O(V³) | `Closure/TransitiveClosure.cs` |
-| **Визуализация** | DOT / Mermaid / матрица | — | `Visualization/GraphExporters.cs` |
+| | Транзитивное сокращение (DAG) | O(V³) | `Closure/TransitiveClosure.cs` |
+| **Преобразования** | Клонирование графа | O(V + E) | `Core/Graph.cs` |
+| | Транспонирование | O(V + E) | `Core/Graph.cs` |
+| | Смена направленности (`ToUndirected` / `ToDirected`) | O(V + E) | `Core/Graph.cs` |
+| | Клонирование сети (`FlowNetwork<T>.Clone`) | O(V + E) | `Core/FlowNetwork.cs` |
+| | Клонирование сети (`CostFlowNetwork<T>.Clone`) | O(V + E) | `Core/CostFlowNetwork.cs` |
+| **Представления** | Матрица смежности `AdjacencyMatrixGraph<T>` | O(V²) памяти | `Core/AdjacencyMatrixGraph.cs` |
+| **Визуализация** | DOT / Mermaid / матрица / список | — | `Visualization/GraphExporters.cs` |
 
 ---
 
@@ -485,47 +620,85 @@ string list = GraphExporters.ToAdjacencyList(graph);
 ```
 GraphToolkit/
 ├── src/GraphToolkit/
-│   ├── Core/                 # Базовые типы
-│   │   ├── Edge.cs           # Ребро
-│   │   ├── Graph.cs          # Основной класс графа
-│   │   ├── IGraph.cs         # Интерфейс
-│   │   ├── FlowNetwork.cs    # Сеть для max-flow
-│   │   ├── CostFlowNetwork.cs# Сеть для min-cost flow
-│   │   └── UnionFind.cs      # СНМ
-│   ├── Traversal/            # BFS, DFS, топосорт
-│   ├── ShortestPaths/        # Дейкстра, BF, A*, FW
-│   ├── MinimumSpanningTree/  # Краскал, Прим, Борувка
-│   ├── Components/           # SCC, мосты, точки сочленения
-│   ├── Flow/                 # Max-flow, min-cost flow
-│   ├── Cut/                  # Штёр-Вагнер
-│   ├── Matching/             # Куна, Blossom
-│   ├── Eulerian/             # Эйлеровы пути
-│   ├── Hamiltonian/          # Гамильтоновы циклы, TSP
-│   ├── Coloring/             # Раскраска
-│   ├── Trees/                # LCA, диаметр, центроид
-│   ├── Closure/              # Транзитивные замыкания
-│   ├── Visualization/        # Экспорт в DOT/Mermaid
-│   └── Utils/                # GraphBuilder, расширения
-├── tests/GraphToolkit.Tests/ # Юнит-тесты
-├── docs/                     # DocFX-документация
-├── samples/                  # Примеры
+│   ├── Core/                     # Базовые типы и структуры
+│   │   ├── Edge.cs               # Ребро
+│   │   ├── Graph.cs              # Основной граф (список смежности)
+│   │   ├── AdjacencyMatrixGraph.cs # Граф на матрице смежности
+│   │   ├── IGraph.cs             # Интерфейс графа
+│   │   ├── FlowNetwork.cs        # Сеть для max-flow
+│   │   ├── CostFlowNetwork.cs    # Сеть для min-cost flow
+│   │   ├── Optional.cs           # Опциональное значение (для generic-кода)
+│   │   └── UnionFind.cs          # Система непересекающихся множеств
+│   ├── Traversal/                # BFS, DFS, топосорт
+│   ├── ShortestPaths/            # Дейкстра, BF, A*, FW, критический путь
+│   ├── MinimumSpanningTree/      # Краскал, Прим, Борувка
+│   ├── Components/               # Связные, SCC, мосты, точки сочленения
+│   ├── Flow/                     # Форд-Фалкерсон, Эдмондс-Карп, Диниц,
+│   │                             # min-cost flow (SPFA, Дейкстра+потенциалы)
+│   ├── Cut/                      # Штёр-Вагнер, Гомори-Ху
+│   ├── Matching/                 # Куна, Blossom, Венгерский
+│   ├── Eulerian/                 # Эйлеровы пути (проверка + Хиерхольцер)
+│   ├── Hamiltonian/              # Гамильтоновы циклы, TSP
+│   ├── Coloring/                 # Жадная, DSATUR, двудольность
+│   ├── Trees/                    # LCA, диаметр, центроид,
+│   │                             # центроидная декомпозиция, HLD,
+│   │                             # HldPathQueries, Link-Cut Tree
+│   ├── Structures/               # Segment Tree, Fenwick Tree
+│   ├── Closure/                  # Транзитивное замыкание и сокращение
+│   ├── Visualization/            # Экспорт в DOT/Mermaid
+│   └── Utils/                    # GraphBuilder, расширения
+├── tests/GraphToolkit.Tests/     # Юнит-тесты (~260 тестов)
+├── docs/                         # DocFX-документация
+├── samples/                      # Примеры (Routing, SocialNetwork,
+│                                 # Scheduling, Transportation, Clustering)
+├── build-docs.ps1                # Сборка документации (Windows)
+├── build-docs.sh                 # Сборка документации (Linux/macOS)
+├── .gitignore
+├── .gitattributes
+├── README.md
+├── LICENSE
 └── GraphToolkit.sln
 ```
 
 ### Принципы дизайна
 
-1. **Интерфейс `IGraph<T>`** — все алгоритмы работают через абстракцию
-2. **Generic `T`** — никаких ограничений на тип вершины
-3. **Nullable-aware** — `where T : notnull`, `T?` где уместно
-4. **Immutable results** — результаты возвращаются в виде `record` или `IReadOnlyList`
-5. **Один файл = один алгоритм** (за редким исключением)
-6. **Zero-dependency** — только BCL
+1. **Интерфейс `IGraph<T>`** — все алгоритмы работают через абстракцию.
+   Можно подставить `Graph<T>` (список смежности), `AdjacencyMatrixGraph<T>`
+   (матрица) или собственную реализацию.
+
+2. **Generic `T`** — никаких ограничений на тип вершины, только
+   `where T : notnull`. Специальные структуры (`Dictionary<T, T>` без ключа
+   = «нет значения») используются вместо `T?`, чтобы избежать проблем
+   с nullable-типами под generic-ограничением.
+
+3. **Nullable-aware** — `Nullable` включён на уровне проекта.
+
+4. **Immutable results** — результаты возвращаются в виде `record` или
+   `IReadOnlyList<T>` там, где это уместно.
+
+5. **Один файл = один алгоритм** (за редким исключением, например
+   `MinCostFlow.cs` содержит два алгоритма).
+
+6. **Zero-dependency** — только BCL.
+
+### Структура по уровням
+
+- **`Core/`** — базовые типы, от которых зависят все алгоритмы.
+  Не зависит ни от чего, кроме BCL.
+- **`Structures/`** — вспомогательные структуры данных
+  (`SegmentTree`, `FenwickTree`), не привязанные к графам.
+- **Алгоритмы** (`Traversal`, `ShortestPaths`, `Flow`, `Trees` и т. д.) —
+  зависят только от `Core/` и `Structures/`, но не друг от друга
+  (за редким исключением вроде `HldPathQueries`, который использует
+  `SegmentTree`).
+- **`Visualization/`** и **`Utils/`** — утилитарные модули, могут
+  зависеть от любого алгоритма.
 
 ---
 
 ## Производительность
 
-Ориентировочные числа на .NET 8, Intel i7, случайные разреженные графы:
+Ориентировочные числа на .NET 10, Intel i7, случайные разреженные графы:
 
 | Алгоритм | V = 10³ | V = 10⁴ | V = 10⁵ |
 |---|---|---|---|
@@ -545,7 +718,7 @@ GraphToolkit/
 
 ### Требования
 
-- **.NET SDK 8.0+**
+- **.NET SDK 10.0+**
 - **DocFX 2.75+** (опционально, для документации)
 
 ### Сборка
