@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using GraphToolkit.Hamiltonian;
 using GraphToolkit.Utils;
 using Xunit;

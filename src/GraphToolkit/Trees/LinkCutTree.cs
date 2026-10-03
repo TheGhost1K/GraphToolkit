@@ -1,4 +1,4 @@
-﻿namespace GraphToolkit.Trees;
+namespace GraphToolkit.Trees;
 
 /// <summary>
 /// Link-Cut Tree — структура данных для динамического леса.

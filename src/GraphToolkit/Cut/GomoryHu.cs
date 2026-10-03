@@ -1,4 +1,4 @@
-﻿using GraphToolkit.Core;
+using GraphToolkit.Core;
 using GraphToolkit.Flow;
 
 namespace GraphToolkit.Cut;

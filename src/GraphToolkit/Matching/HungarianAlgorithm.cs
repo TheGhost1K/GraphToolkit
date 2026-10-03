@@ -1,4 +1,4 @@
-﻿namespace GraphToolkit.Matching;
+namespace GraphToolkit.Matching;
 
 /// <summary>
 /// Венгерский алгоритм (алгоритм Куна-Манкреса) для решения задачи

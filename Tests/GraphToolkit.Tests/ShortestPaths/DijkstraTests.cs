@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using GraphToolkit.Core;
 using GraphToolkit.ShortestPaths;
 using GraphToolkit.Utils;

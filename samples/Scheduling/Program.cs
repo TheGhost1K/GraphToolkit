@@ -1,4 +1,4 @@
-﻿using GraphToolkit.Core;
+using GraphToolkit.Core;
 using GraphToolkit.ShortestPaths;
 using GraphToolkit.Traversal;
 using GraphToolkit.Utils;

@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using GraphToolkit.Coloring;
 using GraphToolkit.Utils;
 using Xunit;

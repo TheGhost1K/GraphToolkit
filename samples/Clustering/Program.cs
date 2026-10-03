@@ -1,4 +1,4 @@
-﻿using GraphToolkit.Components;
+using GraphToolkit.Components;
 using GraphToolkit.Core;
 using GraphToolkit.MinimumSpanningTree;
 using GraphToolkit.Utils;

@@ -22,7 +22,7 @@ public sealed class CostFlowNetwork<T> where T : notnull
         public int To;
         public int Rev;
         public double Cap;
-        public double Cost;  
+        public double Cost;
     }
 
     private readonly List<T> _vertices = new();
@@ -68,7 +68,7 @@ public sealed class CostFlowNetwork<T> where T : notnull
             To = u,
             Cap = 0,
             Cost = -cost,
-            Rev = Graph[u].Count     
+            Rev = Graph[u].Count
         };
 
         Graph[u].Add(forward);

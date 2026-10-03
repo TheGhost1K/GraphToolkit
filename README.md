@@ -961,7 +961,7 @@ var (dist, next, vertices) = ParallelFloydWarshall.Compute(graph);
 var (d, prev) = ParallelDijkstra.DeltaStepping(graph, source, delta: 1.0);
 ```
 
-📖 [Полная статья о параллельных алгоритмах](docs/articles/parallel.md)
+📖 [Полная статья о параллельных алгоритмах](docs/articles/parallel-algorithms.md)
 
 ### Альтернативные алгоритмы
 

@@ -1,4 +1,4 @@
-﻿namespace GraphToolkit.Structures;
+namespace GraphToolkit.Structures;
 
 /// <summary>
 /// Дерево Фенвика (Binary Indexed Tree, BIT) для точечных обновлений

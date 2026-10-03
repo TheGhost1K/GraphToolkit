@@ -1,4 +1,4 @@
-﻿namespace GraphToolkit.Core;
+namespace GraphToolkit.Core;
 
 /// <summary>
 /// Реализация <see cref="IGraph{T}"/> на основе матрицы смежности.
