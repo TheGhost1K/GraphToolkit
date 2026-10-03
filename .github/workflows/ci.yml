@@ -45,7 +45,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --configuration Release --no-build --report-trx "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
+        run: dotnet test GraphToolkit.slnx --configuration Release --no-build -- --report-trx --report-trx-filename test-results.trx
 
       - name: Upload test results
         if: always()
@@ -53,13 +53,6 @@ jobs:
         with:
           name: test-results-${{ matrix.os }}
           path: '**/test-results.trx'
-
-      - name: Upload coverage
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage
-          path: '**/coverage.cobertura.xml'
 
   code-style:
     name: Code Style Check
