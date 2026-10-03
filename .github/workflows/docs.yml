@@ -43,7 +43,7 @@ jobs:
         run: dotnet restore
 
       - name: Build library
-        run: dotnet build src/GraphToolkit.csproj -c Release --no-restore
+        run: dotnet build src/GraphToolkit/GraphToolkit.csproj -c Release --no-restore
 
       - name: Build docs
         run: docfx docs/docfx.json

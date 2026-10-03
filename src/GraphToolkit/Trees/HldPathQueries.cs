@@ -1,5 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
 using GraphToolkit.Core;
 using GraphToolkit.Structures;
 
