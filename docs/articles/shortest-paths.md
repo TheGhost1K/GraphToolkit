@@ -165,6 +165,43 @@ if (double.IsPositiveInfinity(dist["Z"]))
     Console.WriteLine("Вершина Z недостижима");
 ```
 
+## Параллельные версии
+
+Для больших графов доступны параллельные реализации:
+
+### Параллельный Беллман-Форд
+
+```csharp
+using GraphToolkit.Parallel;
+
+var (dist, prev, hasCycle) = ParallelBellmanFord.Compute(graph, source);
+```
+
+**Ускорение:** 2–3×.
+
+### Delta-stepping Дейкстра
+
+Классический Дейкстра плохо параллелится, но delta-stepping — да:
+
+```csharp
+var (dist, prev) = ParallelDijkstra.DeltaStepping(graph, source, delta: 1.0);
+
+// Или с delta по умолчанию
+var (dist2, prev2) = ParallelDijkstra.Compute(graph, source);
+```
+
+**Ускорение:** 2–5×.
+
+### Параллельный Флойд-Уоршелл
+
+```csharp
+var (distMatrix, nextMatrix, vertices) = ParallelFloydWarshall.Compute(graph);
+```
+
+**Ускорение:** 2–4×.
+
+См. подробнее в статье [«Параллельные алгоритмы»](parallel-algorithms.md).
+
 ## См. также
 
 - [Топологическая сортировка](topological-sort.md)

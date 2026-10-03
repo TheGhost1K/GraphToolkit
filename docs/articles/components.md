@@ -104,6 +104,28 @@ var r = BridgesAndArticulation.Find(g);
 - Дорожные сети (мосты — узкие места)
 - Социальные сети
 
+## Параллельные версии
+
+### Параллельные связные компоненты
+
+```csharp
+using GraphToolkit.Parallel;
+
+var components = ParallelComponents.Find(graph);
+```
+
+**Ускорение:** 3–6× на больших графах.
+
+### Параллельные SCC
+
+```csharp
+var sccs = ParallelScc.Find(directedGraph);
+```
+
+**Ускорение:** 2–4×.
+
+См. подробнее в статье [«Параллельные алгоритмы»](parallel-algorithms.md).
+
 ## См. также
 
 - [Обходы графа](traversal.md)

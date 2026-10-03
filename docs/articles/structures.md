@@ -10,6 +10,8 @@ title: Деревья отрезков и Fenwick
 данных. Они также используются внутри `HldPathQueries` для запросов
 на путях в дереве.
 
+---
+
 ## Segment Tree — дерево отрезков
 
 Поддерживает три операции:
@@ -137,6 +139,47 @@ Console.WriteLine(bit.RangeAggregate(1, 4));    // 2 + 13 + 4 = 19
 
 ---
 
+## CSR-граф (Compressed Sparse Row)
+
+Компактный формат для **очень больших** графов (V > 10⁶), не влезающих
+в стандартное `List<Edge>[]`.
+
+### Преимущества
+
+- **3–10× меньше памяти**, чем `Graph<T>`
+- **Cache-friendly** обход соседей через `Span<T>`
+- Быстрая конвертация из обычного графа
+
+### Пример
+
+```csharp
+using GraphToolkit.Core;
+
+var csr = new CSRGraph<int>(graph);
+
+// Обход соседей через Span (без аллокаций)
+int v = csr.IndexOf(0);
+var neighbors = csr.Neighbors(v);          // ReadOnlySpan<int>
+var weights = csr.NeighborWeights(v);      // ReadOnlySpan<double>
+
+for (int i = 0; i < neighbors.Length; i++)
+{
+    var neighbor = csr.VertexAt(neighbors[i]);
+    Console.WriteLine($"{neighbor} вес {weights[i]}");
+}
+
+Console.WriteLine($"Память: {csr.ApproximateMemoryBytes()} байт");
+```
+
+### Ограничение
+
+`CSRGraph<T>` **не реализует** `IGraph<T>` — работает с индексами,
+а не с `T`. Для использования стандартных алгоритмов нужна адаптация.
+
+📖 Подробнее — в статье [«Продвинутые структуры и алгоритмы»](advanced-topics.md#csr-граф).
+
+---
+
 ## Сравнение
 
 | Операция | Segment Tree | Fenwick |
@@ -149,6 +192,7 @@ Console.WriteLine(bit.RangeAggregate(1, 4));    // 2 + 13 + 4 = 19
 | Константа | Больше | Меньше |
 
 **Выбор:**
+
 - Только сумма, только точечные обновления → **Fenwick**
 - Нужны min/max, range updates → **Segment Tree**
 
@@ -189,4 +233,5 @@ Console.WriteLine(hld.Query(4, 5));   // 40 + 100 + 50 = 190
 ## См. также
 
 - [Продвинутые алгоритмы на деревьях](advanced-trees.md)
+- [Продвинутые структуры и алгоритмы](advanced-topics.md)
 - [Производительность](performance.md)

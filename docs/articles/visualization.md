@@ -102,6 +102,14 @@ string dot = GraphExporters.ToDot(graph, "Colored", colors: colors);
 string mermaid = GraphExporters.ToMermaid(graph, colors: colors);
 ```
 
+## Импорт из других форматов
+
+Помимо экспорта, библиотека умеет **загружать** графы из GraphML,
+GEXF, JSON, CSV и DOT. См. [«Работа с файлами»](file-io.md).
+
+Это позволяет, например, загрузить граф из Gephi (`.gexf`),
+обработать алгоритмом и сохранить результат обратно в `.graphml`.
+
 ## См. также
 
 - [Быстрый старт](getting-started.md)

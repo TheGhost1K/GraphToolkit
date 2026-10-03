@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+  <key id="w" for="edge" attr.name="weight" attr.type="double"/>
+  <graph id="G" edgedefault="undirected">
+    <node id="Алиса"/>
+    <node id="Борис"/>
+    <node id="Вика"/>
+    <node id="Гриша"/>
+    <node id="Даша"/>
+    <node id="Егор"/>
+    <node id="Жанна"/>
+    <node id="Зина"/>
+    <node id="Игорь"/>
+    <node id="Костя"/>
+    <node id="Лена"/>
+    <node id="Миша"/>
+    <node id="Настя"/>
+    <node id="Олег"/>
+    <node id="Петя"/>
+    <edge source="Алиса" target="Борис">
+      <data key="w">5.0</data>
+    </edge>
+    <edge source="Алиса" target="Вика">
+      <data key="w">3.0</data>
+    </edge>
+    <edge source="Алиса" target="Гриша">
+      <data key="w">2.0</data>
+    </edge>
+    <edge source="Борис" target="Вика">
+      <data key="w">4.0</data>
+    </edge>
+    <edge source="Борис" target="Гриша">
+      <data key="w">3.0</data>
+    </edge>
+    <edge source="Вика" target="Гриша">
+      <data key="w">2.0</data>
+    </edge>
+    <edge source="Даша" target="Егор">
+      <data key="w">5.0</data>
+    </edge>
+    <edge source="Даша" target="Жанна">
+      <data key="w">4.0</data>
+    </edge>
+    <edge source="Даша" target="Зина">
+      <data key="w">2.0</data>
+    </edge>
+    <edge source="Егор" target="Жанна">
+      <data key="w">5.0</data>
+    </edge>
+    <edge source="Егор" target="Зина">
+      <data key="w">3.0</data>
+    </edge>
+    <edge source="Жанна" target="Зина">
+      <data key="w">3.0</data>
+    </edge>
+    <edge source="Игорь" target="Костя">
+      <data key="w">4.0</data>
+    </edge>
+    <edge source="Игорь" target="Лена">
+      <data key="w">3.0</data>
+    </edge>
+    <edge source="Игорь" target="Миша">
+      <data key="w">5.0</data>
+    </edge>
+    <edge source="Костя" target="Лена">
+      <data key="w">2.0</data>
+    </edge>
+    <edge source="Костя" target="Миша">
+      <data key="w">3.0</data>
+    </edge>
+    <edge source="Лена" target="Миша">
+      <data key="w">4.0</data>
+    </edge>
+    <edge source="Гриша" target="Даша">
+      <data key="w">0.5</data>
+    </edge>
+    <edge source="Миша" target="Настя">
+      <data key="w">0.5</data>
+    </edge>
+    <edge source="Настя" target="Олег">
+      <data key="w">3.0</data>
+    </edge>
+    <edge source="Олег" target="Петя">
+      <data key="w">4.0</data>
+    </edge>
+  </graph>
+</graphml>

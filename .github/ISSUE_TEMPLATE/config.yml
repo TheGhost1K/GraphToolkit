@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Вопросы и обсуждения
+    url: https://github.com/TheGhost1K/GraphToolkit/discussions
+    about: Задавайте вопросы, делитесь идеями в Discussions
+  - name: 📖 Документация
+    url: https://TheGhost1K.github.io/GraphToolkit
+    about: Полная документация с примерами и API-справочником
+  - name: 🔒 Сообщить об уязвимости
+    url: https://github.com/TheGhost1K/GraphToolkit/security/advisories/new
+    about: Приватное сообщение о проблемах безопасности

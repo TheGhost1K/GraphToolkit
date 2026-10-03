@@ -1,27 +1,104 @@
 <Solution>
-  <Folder Name="/samples/" />
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/GraphToolkit.Benchmarks/GraphToolkit.Benchmarks.csproj" Id="e7b8af92-09de-4a18-9f6e-0e08a3c6826e" />
+  </Folder>
+  <Folder Name="/docs/">
+    <File Path="docs/docfx.json" />
+    <File Path="docs/index.md" />
+    <File Path="docs/toc.yml" />
+  </Folder>
+  <Folder Name="/docs/articles/">
+    <File Path="docs/articles/advanced-topics.md" />
+    <File Path="docs/articles/adjacency-matrix.md" />
+    <File Path="docs/articles/advanced-trees.md" />
+    <File Path="docs/articles/analysis-examples.md" />
+    <File Path="docs/articles/centrality.md" />
+    <File Path="docs/articles/cli.md" />
+    <File Path="docs/articles/closure.md" />
+    <File Path="docs/articles/coloring.md" />
+    <File Path="docs/articles/community.md" />
+    <File Path="docs/articles/components.md" />
+    <File Path="docs/articles/core-concepts.md" />
+    <File Path="docs/articles/cuts.md" />
+    <File Path="docs/articles/eulerian.md" />
+    <File Path="docs/articles/file-io.md" />
+    <File Path="docs/articles/flows.md" />
+    <File Path="docs/articles/getting-started.md" />
+    <File Path="docs/articles/hamiltonian-tsp.md" />
+    <File Path="docs/articles/installation.md" />
+    <File Path="docs/articles/io-and-conversion.md" />
+    <File Path="docs/articles/matching.md" />
+    <File Path="docs/articles/min-cost-flow.md" />
+    <File Path="docs/articles/minimum-spanning-tree.md" />
+    <File Path="docs/articles/performance.md" />
+    <File Path="docs/articles/shortest-paths.md" />
+    <File Path="docs/articles/structures.md" />
+    <File Path="docs/articles/toc.yml" />
+    <File Path="docs/articles/topological-sort.md" />
+    <File Path="docs/articles/traversal.md" />
+    <File Path="docs/articles/trees.md" />
+    <File Path="docs/articles/visualization.md" />
+    <File Path="docs/articles/parallel-algorithms.md" />
+  </Folder>
+  <Folder Name="/samples/">
+    <File Path="samples/README.md" />
+  </Folder>
+  <Folder Name="/samples/AdvancedTrees/">
+    <Project Path="samples/AdvancedTrees/AdvancedTrees.csproj" Id="b9336cce-ec2b-4ff4-add1-cae155c00086" />
+  </Folder>
+  <Folder Name="/samples/Analysis/">
+    <Project Path="samples/Analysis/Analysis.csproj" Id="569a1728-0f26-4588-be07-6cfdabbfa0a1" />
+  </Folder>
+  <Folder Name="/samples/Closure/">
+    <Project Path="samples/Closure/Closure.csproj" Id="05e9a4f9-4ba4-4882-9848-c83d62162aa0" />
+  </Folder>
   <Folder Name="/samples/Clustering/">
-    <Project Path="samples/Clustering/Clustering/Clustering.csproj" Id="3249e72b-d7c0-4662-af49-90d6b6235cff" />
+    <Project Path="samples/Clustering/Clustering.csproj" Id="3249e72b-d7c0-4662-af49-90d6b6235cff" />
+  </Folder>
+  <Folder Name="/samples/Coloring/">
+    <Project Path="samples/Coloring/Coloring.csproj" Id="f638ef12-dada-453a-8ab4-f5fae33eb8e7" />
+  </Folder>
+  <Folder Name="/samples/Eulerian/">
+    <Project Path="samples/Eulerian/Eulerian.csproj" Id="626fd9e1-0c68-4751-8e77-151c51b53948" />
+  </Folder>
+  <Folder Name="/samples/FileIO/">
+    <Project Path="samples/FileIO/FileIO.csproj" Id="0488bf26-7343-4799-b8cc-6ce4bffa16d1" />
+  </Folder>
+  <Folder Name="/samples/Flows/">
+    <Project Path="samples/Flows/Flows.csproj" Id="abab4428-11cf-4dc3-b72b-6fcd8b68229c" />
+  </Folder>
+  <Folder Name="/samples/Hamiltonian/">
+    <Project Path="samples/Hamiltonian/Hamiltonian.csproj" Id="6b329e6f-04fd-462a-befe-f1660e00e1f6" />
+  </Folder>
+  <Folder Name="/samples/Matching/">
+    <Project Path="samples/Matching/Matching.csproj" Id="37fbbef2-2980-459f-a937-6fba02726ea6" />
   </Folder>
   <Folder Name="/samples/Routing/">
-    <Project Path="samples/Routing/Routing/Routing.csproj" Id="98d3e029-951d-455b-9659-7d06f1a6eec5" />
+    <Project Path="samples/Routing/Routing.csproj" Id="98d3e029-951d-455b-9659-7d06f1a6eec5" />
   </Folder>
   <Folder Name="/samples/Scheduling/">
-    <Project Path="samples/Scheduling/Scheduling/Scheduling.csproj" Id="caf88e7f-fb29-41bc-a6c4-78315f6f65e6" />
+    <Project Path="samples/Scheduling/Scheduling.csproj" Id="caf88e7f-fb29-41bc-a6c4-78315f6f65e6" />
   </Folder>
   <Folder Name="/samples/SocialNetwork/">
-    <Project Path="samples/SocialNetwork/SocialNetwork/SocialNetwork.csproj" Id="8e997216-7cae-4402-a762-c434067b5a00" />
+    <Project Path="samples/SocialNetwork/SocialNetwork.csproj" Id="8e997216-7cae-4402-a762-c434067b5a00" />
+  </Folder>
+  <Folder Name="/samples/Structures/">
+    <Project Path="samples/Structures/Structures.csproj" Id="08767ff0-d194-48da-a9e6-cc2f1f0bf55c" />
   </Folder>
   <Folder Name="/samples/Transportation/">
-    <Project Path="samples/Transportation/Transportation/Transportation.csproj" Id="5a48ae81-13b6-4775-9c9a-18a299f3e1ed" />
+    <Project Path="samples/Transportation/Transportation.csproj" Id="5a48ae81-13b6-4775-9c9a-18a299f3e1ed" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src/GraphToolkit.csproj" />
+    <Project Path="src/GraphToolkit.Cli/GraphToolkit.Cli.csproj" Id="ace70b2d-a02d-49d3-8d89-827118ce83ce" />
+    <Project Path="src/GraphToolkit/GraphToolkit.csproj" />
   </Folder>
   <Folder Name="/Tests/">
+    <Project Path="Tests/GraphToolkit.Cli.Tests/GraphToolkit.Cli.Tests.csproj" Id="28637360-34dc-495f-8484-c139813fbedb" />
+    <Project Path="Tests/GraphToolkit.PropertyTests/GraphToolkit.PropertyTests.csproj" Id="cd0b294b-f80d-48e5-bb49-636308d12039" />
     <Project Path="Tests/GraphToolkit.Tests/GraphToolkit.Tests.csproj" Id="0cf145b7-3736-4c5f-84e8-f911e19cc5fb" />
   </Folder>
   <Folder Name="/Элементы решения/">
+    <File Path=".editorconfig" />
     <File Path=".gitignore" />
     <File Path="global.json" />
     <File Path="README.md" />

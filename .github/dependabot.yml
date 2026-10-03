@@ -1,0 +1,19 @@
+version: 1
+updates:
+  - package-ecosystem: nuget
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      test-dependencies:
+        patterns:
+          - 'xunit*'
+          - 'Microsoft.NET.Test.Sdk'
+          - 'FluentAssertions'
+          - 'coverlet*'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

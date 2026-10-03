@@ -113,6 +113,31 @@ Debug.Assert(mst.Count == graph.VertexCount - 1);
 double total = mst.Sum(e => e.Weight);
 ```
 
+## Параллельная Борувка
+
+Борувка идеально параллелится: на каждой итерации каждая компонента
+независимо выбирает минимальное исходящее ребро.
+
+```csharp
+using GraphToolkit.Parallel;
+
+var mst = ParallelBoruvka.Compute(graph);
+double total = mst.Sum(e => e.Weight);
+```
+
+**Ускорение:** 3–5×.
+
+**Сравнение с последовательными версиями:**
+
+```csharp
+double seq = Boruvka.Compute(graph).Sum(e => e.Weight);
+double par = ParallelBoruvka.Compute(graph).Sum(e => e.Weight);
+
+seq.Should().Be(par);  // одинаковый вес
+```
+
+См. подробнее в статье [«Параллельные алгоритмы»](parallel-algorithms.md).
+
 ## См. также
 
 - [Компоненты связности](components.md)

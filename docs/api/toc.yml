@@ -4,6 +4,16 @@ items:
   name: GraphToolkit
   type: Namespace
   items:
+  - uid: GraphToolkit.Centrality
+    name: Centrality
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Centrality.Centralities
+      name: Centralities
+      type: Class
+    - uid: GraphToolkit.Centrality.PageRank
+      name: PageRank
+      type: Class
   - uid: GraphToolkit.Closure
     name: Closure
     type: Namespace
@@ -17,6 +27,19 @@ items:
     items:
     - uid: GraphToolkit.Coloring.GraphColoring
       name: GraphColoring
+      type: Class
+  - uid: GraphToolkit.Community
+    name: Community
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Community.LabelPropagation
+      name: LabelPropagation
+      type: Class
+    - uid: GraphToolkit.Community.Louvain
+      name: Louvain
+      type: Class
+    - uid: GraphToolkit.Community.WeightedLabelPropagation
+      name: WeightedLabelPropagation
       type: Class
   - uid: GraphToolkit.Components
     name: Components
@@ -40,6 +63,9 @@ items:
     items:
     - uid: GraphToolkit.Core.AdjacencyMatrixGraph`1
       name: AdjacencyMatrixGraph<T>
+      type: Class
+    - uid: GraphToolkit.Core.CSRGraph`1
+      name: CSRGraph<T>
       type: Class
     - uid: GraphToolkit.Core.CostFlowNetwork`1
       name: CostFlowNetwork<T>
@@ -89,6 +115,9 @@ items:
     name: Flow
     type: Namespace
     items:
+    - uid: GraphToolkit.Flow.CostScaling
+      name: CostScaling
+      type: Class
     - uid: GraphToolkit.Flow.Dinic
       name: Dinic
       type: Class
@@ -100,6 +129,9 @@ items:
       type: Class
     - uid: GraphToolkit.Flow.MinCostFlow
       name: MinCostFlow
+      type: Class
+    - uid: GraphToolkit.Flow.PushRelabel
+      name: PushRelabel
       type: Class
   - uid: GraphToolkit.Hamiltonian
     name: Hamiltonian
@@ -113,6 +145,13 @@ items:
       type: Class
     - uid: GraphToolkit.Hamiltonian.Tsp.Result`1
       name: Tsp.Result<T>
+      type: Class
+  - uid: GraphToolkit.IO
+    name: IO
+    type: Namespace
+    items:
+    - uid: GraphToolkit.IO.GraphIO
+      name: GraphIO
       type: Class
   - uid: GraphToolkit.Matching
     name: Matching
@@ -142,6 +181,37 @@ items:
       type: Class
     - uid: GraphToolkit.MinimumSpanningTree.Prim
       name: Prim
+      type: Class
+  - uid: GraphToolkit.Parallel
+    name: Parallel
+    type: Namespace
+    items:
+    - uid: GraphToolkit.Parallel.MultiSourceBfs
+      name: MultiSourceBfs
+      type: Class
+    - uid: GraphToolkit.Parallel.ParallelBellmanFord
+      name: ParallelBellmanFord
+      type: Class
+    - uid: GraphToolkit.Parallel.ParallelBfs
+      name: ParallelBfs
+      type: Class
+    - uid: GraphToolkit.Parallel.ParallelBoruvka
+      name: ParallelBoruvka
+      type: Class
+    - uid: GraphToolkit.Parallel.ParallelComponents
+      name: ParallelComponents
+      type: Class
+    - uid: GraphToolkit.Parallel.ParallelDijkstra
+      name: ParallelDijkstra
+      type: Class
+    - uid: GraphToolkit.Parallel.ParallelFloydWarshall
+      name: ParallelFloydWarshall
+      type: Class
+    - uid: GraphToolkit.Parallel.ParallelPageRank
+      name: ParallelPageRank
+      type: Class
+    - uid: GraphToolkit.Parallel.ParallelScc
+      name: ParallelScc
       type: Class
   - uid: GraphToolkit.ShortestPaths
     name: ShortestPaths

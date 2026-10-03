@@ -48,10 +48,30 @@
     - name: Транзитивное замыкание
       href: closure.md
 
+- name: Анализ графов
+  items:
+    - name: Центральности и PageRank
+      href: centrality.md
+    - name: Обнаружение сообществ
+      href: community.md
+    - name: Примеры анализа
+      href: analysis-examples.md
+
+- name: Продвинутые темы
+  items:
+    - name: Продвинутые структуры и алгоритмы
+      href: advanced-topics.md
+    - name: Параллельные алгоритмы
+      href: parallel-algorithms.md
+
 - name: Дополнительно
   items:
     - name: Визуализация
       href: visualization.md
+    - name: Работа с файлами (IO)
+      href: file-io.md
+    - name: CLI-утилита
+      href: cli.md
     - name: Преобразования графа
       href: io-and-conversion.md
     - name: Матрица смежности

@@ -179,6 +179,33 @@ public bool IsRoot(T v) => !_parent.ContainsKey(v);
 6. **Плотные графы → `AdjacencyMatrixGraph<T>`**: проверка ребра за O(1)
    вместо O(deg(u)).
 
+## Анализ графов
+
+Помимо классических алгоритмов (пути, потоки, MST), библиотека
+предоставляет инструменты для анализа структуры графа:
+
+- **Центральности** — Degree, Closeness, Betweenness, Eigenvector, Katz
+- **PageRank** — ранжирование вершин
+- **Обнаружение сообществ** — Label Propagation, Louvain
+
+См. статьи [«Центральности и PageRank»](centrality.md) и
+[«Обнаружение сообществ»](community.md).
+
+## Работа с файлами
+
+Импорт и экспорт графов в пяти форматах: GraphML, GEXF, JSON, CSV, DOT.
+Все методы в классе `GraphToolkit.IO.GraphIO`. Подробнее —
+в статье [«Работа с файлами»](file-io.md).
+
+## Параллельные алгоритмы
+
+Для больших графов доступны параллельные версии:
+
+- **`ParallelBfs.FindPath`** — level-synchronous BFS
+- **`ParallelBfs.Distances`** — расстояния от источника
+
+См. `GraphToolkit.Parallel`. Ускорение 3–8× на многоядерных машинах.
+
 ## См. также
 
 - [Быстрый старт](getting-started.md)

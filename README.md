@@ -16,6 +16,7 @@ GraphToolkit — это production-ready библиотека с **60+ граф�
 
 - [Возможности](#возможности)
 - [Установка](#установка)
+- [CLI-утилита](#cli-утилита)
 - [Быстрый старт](#быстрый-старт)
 - [Обзор API](#обзор-api)
   - [Создание графа](#создание-графа)
@@ -33,9 +34,13 @@ GraphToolkit — это production-ready библиотека с **60+ граф�
   - [Деревья](#деревья)
   - [Продвинутые алгоритмы на деревьях](#продвинутые-алгоритмы-на-деревьях)
   - [Деревья отрезков и Fenwick](#деревья-отрезков-и-fenwick)
+  - [Центральности](#центральности)
+  - [Обнаружение сообществ](#обнаружение-сообществ)
+  - [Работа с файлами](#работа-с-файлами)
   - [Транзитивное замыкание](#транзитивное-замыкание)
   - [Визуализация](#визуализация)
   - [Преобразования и альтернативные представления](#преобразования-и-альтернативные-представления)
+  - [Продвинутые темы](#продвинутые-темы)
 - [Полная таблица алгоритмов](#полная-таблица-алгоритмов)
 - [Архитектура](#архитектура)
 - [Производительность](#производительность)
@@ -51,7 +56,9 @@ GraphToolkit — это production-ready библиотека с **60+ граф�
 
 ## Возможности
 
-**GraphToolkit** — это production-ready библиотека графовых алгоритмов для .NET, покрывающая весь классический курс теории графов: от базовых обходов до продвинутых задач (min-cost flow, все пары min-cut, Link-Cut Tree, оптимальное назначение). Zero-dependency, полностью документирована и снабжена юнит-тестами.
+**GraphToolkit** — это production-ready библиотека графовых алгоритмов для .NET, покрывающая весь классический курс теории графов: от базовых обходов до продвинутых задач (min-cost flow, все пары min-cut, Link-Cut Tree, оптимальное назначение). Zero-dependency, полностью документирована, снабжена юнит-тестами и CLI-утилитой.
+
+### Библиотека
 
 - ✅ **60+ алгоритмов** — от BFS и Дейкстры до Гомори-Ху, Диница, Blossom и Link-Cut Tree
 - ✅ **Универсальность** — generic `Graph<T>` для любого типа вершин (`int`, `string`, `record`, …)
@@ -63,33 +70,71 @@ GraphToolkit — это production-ready библиотека с **60+ граф�
 - ✅ **Продвинутые алгоритмы на деревьях** — Centroid Decomposition, HLD, HldPathQueries, Link-Cut Tree
 - ✅ **Min-cost flow** — SPFA и Дейкстра с потенциалами (Джонсон)
 - ✅ **Все пары min-cut** — алгоритм Гомори-Ху поверх max-flow
+- ✅ **Анализ графов** — PageRank, 5 центральностей, 2 алгоритма обнаружения сообществ
+- ✅ **Работа с файлами** — импорт/экспорт в GraphML, GEXF, JSON, CSV, DOT
+- ✅ **Параллельный BFS** — level-synchronous обход
+- ✅ **Параллельные алгоритмы** — BFS, PageRank, FloydWarshall, Bellman-Ford,
+  компоненты, SCC, Boruvka, delta-stepping Дейкстра
+- ✅ **Push-Relabel** — альтернатива Диницу для максимального потока
+- ✅ **CSR-граф** — компактный формат для больших графов (V > 10⁶)
+- ✅ **Взвешенный Label Propagation** — улучшенное обнаружение сообществ
+- ✅ **Multi-source BFS** — расстояния до ближайшего из N источников
+- ✅ **Визуализация** — экспорт в Mermaid и GraphViz DOT
 - ✅ **Zero-dependency** — только BCL, никаких сторонних пакетов
 - ✅ **Nullable-aware** — полная поддержка NRT (`<Nullable>enable</Nullable>`)
-- ✅ **Визуализация** — экспорт в Mermaid и GraphViz DOT
 - ✅ **Полная XML-документация** — интеграция с DocFX
-- ✅ **Широкое покрытие тестами** — все модули проверены юнит-тестами
+- ✅ **Широкое покрытие тестами** — юнит-тесты + property-based (FsCheck) + CLI-тесты
 - ✅ **.NET 10+** — использует `PriorityQueue`, `record`, `HashCode.Combine`
+
+### CLI-утилита `graph-toolkit`
+
+- ✅ **17 команд** — от `info` и `path` до `centrality` и `community`
+- ✅ **5 форматов ввода** — DOT, GraphML, GEXF, JSON, CSV (автоопределение по расширению)
+- ✅ **Работа без кода** — установка через `dotnet tool install -g GraphToolkit.Cli`
+- ✅ **Конвертация форматов** — `convert graph.dot --to graphml`
+- ✅ **Поиск пути** — 5 алгоритмов на выбор: `dijkstra`, `bfs`, `dfs`, `bellman-ford`, `astar`
+- ✅ **Анализ** — центральности, сообщества, разрезы
+- ✅ **Экспорт в Mermaid** — для вставки в markdown / GitHub / GitLab
+- ✅ **Готовность к скриптам** — возвращает корректные коды выхода (0/1/2)
+
+### Структура решения
+
+| Проект | Назначение |
+|---|---|
+| `GraphToolkit` | Основная библиотека |
+| `GraphToolkit.Cli` | CLI-утилита (`graph-toolkit`) |
+| `GraphToolkit.Tests` | Юнит-тесты (xUnit, ~280) |
+| `GraphToolkit.PropertyTests` | Property-based тесты (FsCheck) |
+| `GraphToolkit.Cli.Tests` | Тесты CLI (~58) |
+| `GraphToolkit.Benchmarks` | Бенчмарки (BenchmarkDotNet) |
+| `samples/*` | 18 консольных примеров |
 
 ### Разделы возможностей
 
 | Область | Что входит |
 |---|---|
-| **Обходы и порядок** | BFS, DFS, топологическая сортировка |
+| **Обходы и порядок** | BFS, DFS, топологическая сортировка (Кана) |
 | **Кратчайшие пути** | Дейкстра, Беллман-Форд, A*, Флойд-Уоршелл, критический путь |
 | **Остовные деревья** | Краскал, Прим, Борувка |
-| **Компоненты** | Связные компоненты, SCC (Косараю), мосты, точки сочленения |
-| **Потоки** | Форд-Фалкерсон, Эдмондс-Карп, Диниц, min-cut |
-| **Min-cost flow** | SPFA, Дейкстра с потенциалами |
+| **Компоненты** | Связные компоненты, SCC (Косараю), мосты, точки сочленения (Тарьян) |
+| **Потоки** | Форд-Фалкерсон, Эдмондс-Карп, Диниц, Push-Relabel, min-cut |
+| **Min-cost flow** | SPFA, Дейкстра с потенциалами (Джонсон) |
 | **Разрезы** | Штёр-Вагнер (глобальный), Гомори-Ху (все пары) |
-| **Паросочетания** | Куна, Blossom, Венгерский (назначения) |
+| **Паросочетания** | Куна, Blossom / Эдмондс, Венгерский (назначения) |
 | **Эйлеровы пути** | Проверка + алгоритм Хиерхольцера |
 | **Гамильтоновы / TSP** | Backtracking, ветви и границы, ближайший сосед + 2-opt |
 | **Раскраска** | Жадная (Уэлш-Пауэлл), точная (DSATUR), двудольность |
 | **Деревья** | LCA, диаметр, центроид, Centroid Decomposition, HLD, HldPathQueries, Link-Cut Tree |
-| **Структуры данных** | Segment Tree (с lazy), Fenwick Tree |
+| **Структуры данных** | Segment Tree (с lazy), Fenwick Tree, CSR-граф |
+| **Центральности** | PageRank, Degree, Closeness, Betweenness, Eigenvector, Katz |
+| **Сообщества** | Label Propagation, Louvain (модулярность), взвешенный Label Propagation |
+| **IO** | GraphML, GEXF, JSON, CSV, DOT (импорт/экспорт) |
+| **Параллельные** | Параллельный BFS (level-synchronous), параллельный PageRank, параллельный FloydWarshall, параллельный BellmanFord, параллельные компоненты, параллельный SCC, параллельный Boruvka, Multi-source BFS, Delta-stepping Дейкстра |
 | **Замыкания** | Транзитивное замыкание и сокращение |
-| **Преобразования** | Клонирование, транспонирование, смена направленности |
+| **Преобразования** | Клонирование, транспонирование, смена направленности, клонирование потоковых сетей (`FlowNetwork<T>`, `CostFlowNetwork<T>`) |
+| **Представления** | Матрица смежности `AdjacencyMatrixGraph<T>`, CSR-граф |
 | **Визуализация** | DOT, Mermaid, матрица / список смежности |
+| **CLI** | `graph-toolkit` — работа с графом без кода |
 
 ---
 
@@ -118,6 +163,224 @@ git clone https://github.com/TheGhost1K/GraphToolkit.git
 cd GraphToolkit
 dotnet build src/GraphToolkit/GraphToolkit.csproj -c Release
 ```
+
+---
+
+## CLI-утилита
+
+`graph-toolkit` — утилита командной строки, позволяющая работать с графами **без написания кода**. Поставляется как отдельный .NET tool.
+
+### Установка
+
+```bash
+dotnet tool install -g GraphToolkit.Cli
+```
+
+Проверка:
+
+```bash
+graph-toolkit --version
+graph-toolkit --help
+```
+
+Обновление и удаление:
+
+```bash
+dotnet tool update -g GraphToolkit.Cli
+dotnet tool uninstall -g GraphToolkit.Cli
+```
+
+### Общий синтаксис
+
+```
+graph-toolkit <command> <file> [options]
+```
+
+Формат файла определяется автоматически по расширению: `.dot`, `.graphml`, `.gexf`, `.json`, `.csv`.
+
+### Команды
+
+#### Основные
+
+| Команда | Что делает |
+|---|---|
+| `info <file>` | Информация о графе (вершины, рёбра, степени, веса) |
+| `convert <file> --to <fmt>` | Конвертация между форматами |
+| `visualize <file> --format <fmt>` | Экспорт в `dot`, `mermaid`, `matrix`, `list` |
+
+#### Пути и обходы
+
+| Команда | Что делает |
+|---|---|
+| `path <file> --from A --to B` | Поиск пути (алгоритмы: `dijkstra`, `bfs`, `dfs`, `bellman-ford`, `astar`) |
+| `traversal <file> --algorithm <algo>` | Обходы (`bfs`, `dfs`, `topo`, `levels`) |
+
+#### Структура
+
+| Команда | Что делает |
+|---|---|
+| `mst <file> --algorithm <algo>` | Минимальное остовное дерево (`kruskal`, `prim`, `boruvka`) |
+| `components <file> --type <type>` | `connected`, `bridges`, `articulation` |
+| `scc <file>` | Компоненты сильной связности |
+| `eulerian <file> --mode check\|find` | Эйлеровы пути и циклы |
+
+#### Потоки и разрезы
+
+| Команда | Что делает |
+|---|---|
+| `flow <file> --source S --sink T` | Максимальный поток (`dinic`, `edmonds-karp`, `ford-fulkerson`) |
+| `min-cost-flow <file> --source S --sink T` | Поток минимальной стоимости (`dijkstra`, `spfa`) |
+| `cut <file> --type <type>` | Минимальные разрезы (`stoer-wagner`, `gomory-hu`) |
+
+#### Специальные
+
+| Команда | Что делает |
+|---|---|
+| `matching <file> --algorithm <algo>` | Паросочетания (`blossom`, `kuhn`) |
+| `coloring <file> --algorithm <algo>` | Раскраска (`greedy`, `exact`, `bipartite`) |
+| `tsp <file> --algorithm <algo>` | TSP и гамильтоновы циклы (`tsp-exact`, `tsp-approx`, `hamiltonian`) |
+
+#### Анализ
+
+| Команда | Что делает |
+|---|---|
+| `centrality <file> --metric <m>` | `pagerank`, `degree`, `closeness`, `betweenness`, `eigenvector`, `katz` |
+| `community <file> --algorithm <a>` | Обнаружение сообществ (`louvain`, `label-propagation`) |
+
+### Примеры
+
+#### Информация о графе
+
+```bash
+graph-toolkit info city.dot
+```
+
+```
+Файл:              city.dot
+Формат:            dot
+Ориентированный:   нет
+Вершин:            7
+Рёбер:             11
+Макс. степень:     4
+Мин. степень:      1
+Средняя степень:   3.14
+Мин. вес:          6
+Макс. вес:         35
+```
+
+#### Поиск пути
+
+```bash
+# Дейкстра (по умолчанию)
+graph-toolkit path graph.dot --from A --to F
+
+# BFS — кратчайший по числу рёбер
+graph-toolkit path graph.dot --from A --to F --algorithm bfs
+
+# A* — с эвристикой
+graph-toolkit path graph.dot --from A --to F --algorithm astar
+```
+
+#### Минимальное остовное дерево с сохранением
+
+```bash
+graph-toolkit mst network.gexf --algorithm prim --output mst.graphml
+```
+
+#### Компоненты сильной связности
+
+```bash
+graph-toolkit scc web.dot
+graph-toolkit scc web.dot --components   # + связные компоненты
+```
+
+#### Максимальный поток с минимальным разрезом
+
+```bash
+graph-toolkit flow net.dot --source S --sink T --min-cut
+```
+
+#### PageRank
+
+```bash
+graph-toolkit centrality social.gexf --metric pagerank --top 10
+```
+
+#### Обнаружение сообществ
+
+```bash
+graph-toolkit community social.gexf --algorithm louvain
+```
+
+#### Конвертация форматов
+
+```bash
+# Gephi → markdown
+graph-toolkit convert network.gexf --to json --output network.json
+
+# Визуализация в Mermaid
+graph-toolkit visualize network.gexf --format mermaid --output network.md
+```
+
+### Полный пайплайн: анализ соцсети
+
+```bash
+# 1. Что за граф?
+graph-toolkit info social.gexf
+
+# 2. Топ пользователей по PageRank
+graph-toolkit centrality social.gexf --metric pagerank --top 20
+
+# 3. Сообщества
+graph-toolkit community social.gexf --algorithm louvain
+
+# 4. Кто «мосты» между группами?
+graph-toolkit centrality social.gexf --metric betweenness --top 10
+
+# 5. Экспорт в markdown
+graph-toolkit visualize social.gexf --format mermaid --output social.md
+```
+
+### Использование в скриптах
+
+CLI возвращает стандартные коды выхода:
+
+| Код | Значение |
+|---|---|
+| `0` | Успех |
+| `1` | Ошибка валидации / путь не найден |
+| `2` | Ошибка парсинга файла |
+
+**Bash:**
+
+```bash
+if graph-toolkit path graph.dot --from A --to B > /dev/null 2>&1; then
+    echo "Путь есть"
+else
+    echo "Путь не найден"
+fi
+```
+
+**PowerShell:**
+
+```powershell
+Get-ChildItem *.dot | ForEach-Object {
+    Write-Host "=== $($_.Name) ==="
+    graph-toolkit info $_.FullName
+}
+```
+
+**Make:**
+
+```makefile
+docs/graph.md: graphs/*.dot
+	graph-toolkit visualize $< --format=mermaid --output=$@
+```
+
+### Полная документация
+
+- [CLI-утилита](docs/articles/cli.md) — все команды и параметры
+- [Работа с файлами](docs/articles/file-io.md) — форматы и конвертация
 
 ---
 
@@ -210,6 +473,28 @@ graph LR
     V1 -->|10| V3
     V2 -->|3| V4
     V4 -->|4| V3
+```
+
+### CLI: работа без кода
+
+```bash
+# Установить утилиту
+dotnet tool install -g GraphToolkit.Cli
+
+# Информация о графе
+graph-toolkit info graph.dot
+
+# Найти путь
+graph-toolkit path graph.dot --from A --to F
+
+# Построить MST
+graph-toolkit mst graph.dot --algorithm=prim
+
+# Найти SCC
+graph-toolkit scc graph.dot --components
+
+# Визуализировать
+graph-toolkit visualize graph.dot --format=mermaid
 ```
 
 ---
@@ -543,6 +828,53 @@ bit.Add(2, 10);
 Console.WriteLine(bit.RangeAggregate(1, 4));   // 19
 ```
 
+### Центральности
+
+```csharp
+using GraphToolkit.Centrality;
+
+// PageRank
+var ranks = PageRank.Compute(graph, damping: 0.85);
+
+// Классические центральности
+var degree = Centralities.Degree(graph);
+var closeness = Centralities.Closeness(graph);
+var betweenness = Centralities.Betweenness(graph);
+var eigenvector = Centralities.Eigenvector(graph);
+var katz = Centralities.Katz(graph);
+```
+
+### Обнаружение сообществ
+
+```csharp
+using GraphToolkit.Community;
+
+// Label Propagation — быстрый, но нестабильный
+var communities = LabelPropagation.Compute(graph, seed: 42);
+
+// Louvain — качественный, детерминированный
+var louvainCommunities = Louvain.Compute(graph);
+double q = Louvain.Modularity(graph, louvainCommunities);
+Console.WriteLine($"Модулярность: {q:F4}");
+```
+
+### Работа с файлами
+
+```csharp
+using GraphToolkit.IO;
+
+// Экспорт
+GraphIO.SaveGraphML(graph, "graph.graphml");
+GraphIO.SaveGexf(graph, "graph.gexf");
+GraphIO.SaveJson(graph, "graph.json");
+GraphIO.SaveCsv(graph, "graph.csv");
+
+// Импорт
+var loaded = GraphIO.LoadGraphML("graph.graphml", s => s);
+var fromJson = GraphIO.LoadJson("data.json", int.Parse);
+var fromCsv = GraphIO.LoadCsv("edges.csv", s => s, isDirected: true);
+```
+
 ### Транзитивное замыкание
 
 ```csharp
@@ -598,59 +930,151 @@ matrix.AddEdge("A", "B", 4);
 
 ---
 
+## Продвинутые темы
+
+Помимо классических алгоритмов и структур, библиотека предоставляет
+продвинутые возможности, вынесенные в отдельные статьи для удобства.
+
+### Параллельные алгоритмы
+
+9 параллельных версий алгоритмов для многоядерных машин с ускорением
+**2–8×**. Все находятся в namespace `GraphToolkit.Parallel`.
+
+| Алгоритм | Ускорение | Когда использовать |
+|---|---|---|
+| Параллельный PageRank | 4–8× | V > 10³ |
+| Multi-source BFS | 3–7× | «Ближайший из N центров» |
+| Связные компоненты (UF) | 3–6× | V > 10⁴ |
+| Параллельный BFS | 3–5× | V > 10³ |
+| Борувка (MST) | 3–5× | V > 10³ |
+| Delta-stepping Дейкстра | 2–5× | Плотные графы |
+| Флойд-Уоршелл | 2–4× | V > 100 |
+| SCC (Косараю) | 2–4× | Большие ориентированные |
+| Беллман-Форд | 2–3× | Большие разреженные |
+
+```csharp
+using GraphToolkit.Parallel;
+
+var ranks = ParallelPageRank.Compute(graph, damping: 0.85);
+var components = ParallelComponents.Find(graph);
+var (dist, next, vertices) = ParallelFloydWarshall.Compute(graph);
+var (d, prev) = ParallelDijkstra.DeltaStepping(graph, source, delta: 1.0);
+```
+
+📖 [Полная статья о параллельных алгоритмах](docs/articles/parallel.md)
+
+### Альтернативные алгоритмы
+
+**Push-Relabel** — быстрее Диница на плотных графах (E ≈ V²).
+Работает с предпотоком, не модифицирует исходную сеть.
+
+```csharp
+using GraphToolkit.Flow;
+
+double maxFlow = PushRelabel.Compute(net, "S", "T");
+```
+
+### Компактное представление
+
+**CSR-граф** (`CSRGraph<T>`) — Compressed Sparse Row. Экономит **3–10×**
+памяти по сравнению с `Graph<T>`, cache-friendly обход соседей через
+`Span<T>`. Для V > 10⁶.
+
+```csharp
+using GraphToolkit.Core;
+
+var csr = new CSRGraph<int>(graph);
+var neighbors = csr.Neighbors(csr.IndexOf(0));   // ReadOnlySpan<int>
+var weights = csr.NeighborWeights(csr.IndexOf(0));
+```
+
+### Улучшенные версии
+
+**Взвешенный Label Propagation** — учитывает веса рёбер при выборе
+метки. Даёт более устойчивое разбиение на графах с сильно
+различающимися весами.
+
+```csharp
+using GraphToolkit.Community;
+
+var communities = WeightedLabelPropagation.Compute(graph, seed: 42);
+```
+
+📖 [Полная статья о продвинутых темах](docs/articles/advanced-topics.md)
+
+---
+
 ## Полная таблица алгоритмов
 
 | Категория | Алгоритм — что решает | Сложность | Файл |
 |---|---|---|---|
-| **Обходы** | BFS — обход в ширину | O(V + E) | `Traversal/Bfs.cs` |
-| | DFS — обход в глубину | O(V + E) | `Traversal/Dfs.cs` |
-| | Топологическая сортировка (Кана) | O(V + E) | `Traversal/TopologicalSort.cs` |
-| **Кратчайшие пути** | Дейкстра — от одного источника | O((V+E) log V) | `ShortestPaths/Dijkstra.cs` |
-| | Беллман-Форд — с отрицательными весами | O(V · E) | `ShortestPaths/BellmanFord.cs` |
-| | A* — эвристический поиск | Зависит от эвристики | `ShortestPaths/AStar.cs` |
-| | Флойд-Уоршелл — все пары | O(V³) | `ShortestPaths/FloydWarshall.cs` |
-| | Критический путь — самый длинный в DAG | O(V + E) | `ShortestPaths/CriticalPath.cs` |
-| **MST** | Краскал — разреженные графы | O(E log E) | `MinimumSpanningTree/Kruskal.cs` |
-| | Прим — плотные графы | O((V+E) log V) | `MinimumSpanningTree/Prim.cs` |
-| | Борувка — параллелизуемый | O(E log V) | `MinimumSpanningTree/Boruvka.cs` |
-| **Компоненты** | Связные компоненты | O(V + E) | `Components/ConnectedComponents.cs` |
-| | SCC (Косараю) — сильная связность | O(V + E) | `Components/StronglyConnectedComponents.cs` |
-| | Мосты и точки сочленения (Тарьян) | O(V + E) | `Components/BridgesAndArticulation.cs` |
-| **Потоки** | Форд-Фалкерсон — классика | O(E · f) | `Flow/FordFulkerson.cs` |
-| | Эдмондс-Карп — BFS-версия | O(V · E²) | `Flow/EdmondsKarp.cs` |
-| | Диниц — быстрейший из классических | O(V² · E) | `Flow/Dinic.cs` |
-| **Min-cost flow** | SPFA — с отрицательными стоимостями | O(V · E · F) | `Flow/MinCostFlow.cs` |
-| | Дейкстра с потенциалами (Джонсон) | O(F · E · log V) | `Flow/MinCostFlow.cs` |
-| **Разрезы** | Штёр-Вагнер — глобальный min-cut | O(V³) | `Cut/StoerWagner.cs` |
-| | Гомори-Ху — все пары min-cut | O(V · MaxFlow) | `Cut/GomoryHu.cs` |
-| **Паросочетания** | Куна — макс. паросочетание (двудольный) | O(V · E) | `Matching/Kuhn.cs` |
-| | Blossom / Эдмондс — макс. паросочетание (общий) | O(V³) | `Matching/Blossom.cs` |
-| | Венгерский — оптимальное назначение | O(V³) | `Matching/HungarianAlgorithm.cs` |
-| **Эйлеровы** | Проверка + Хиерхольцер — эйлеров путь | O(V + E) | `Eulerian/EulerianPath.cs` |
+| **Обходы** | BFS — обход графа в ширину, кратчайшие пути в невзвешенном графе | O(V + E) | `Traversal/Bfs.cs` |
+| | DFS — обход графа в глубину, топологическая сортировка, поиск циклов | O(V + E) | `Traversal/Dfs.cs` |
+| | Топологическая сортировка (Кана) — линейный порядок вершин в DAG | O(V + E) | `Traversal/TopologicalSort.cs` |
+| **Кратчайшие пути** | Дейкстра — кратчайшие пути от одного источника (невзвешенные/положительные веса) | O((V+E) log V) | `ShortestPaths/Dijkstra.cs` |
+| | Беллман-Форд — кратчайшие пути от источника с отрицательными весами | O(V · E) | `ShortestPaths/BellmanFord.cs` |
+| | A* — эвристический поиск кратчайшего пути | Зависит от эвристики | `ShortestPaths/AStar.cs` |
+| | Флойд-Уоршелл — кратчайшие пути между всеми парами вершин | O(V³) | `ShortestPaths/FloydWarshall.cs` |
+| | Критический путь — самый длинный путь в DAG | O(V + E) | `ShortestPaths/CriticalPath.cs` |
+| **MST** | Краскал — минимальное остовное дерево, разреженные графы | O(E log E) | `MinimumSpanningTree/Kruskal.cs` |
+| | Прим — минимальное остовное дерево, плотные графы | O((V+E) log V) | `MinimumSpanningTree/Prim.cs` |
+| | Борувка — минимальное остовное дерево, параллелизуемый | O(E log V) | `MinimumSpanningTree/Boruvka.cs` |
+| **Компоненты** | Связные компоненты — компоненты связности графа | O(V + E) | `Components/ConnectedComponents.cs` |
+| | SCC (Косараю) — сильно связные компоненты | O(V + E) | `Components/StronglyConnectedComponents.cs` |
+| | Мосты и точки сочленения (Тарьян) — уязвимые рёбра и вершины | O(V + E) | `Components/BridgesAndArticulation.cs` |
+| **Потоки** | Форд-Фалкерсон — максимальный поток, классический метод | O(E · f) | `Flow/FordFulkerson.cs` |
+| | Эдмондс-Карп — максимальный поток, BFS-версия Форда-Фалкерсона | O(V · E²) | `Flow/EdmondsKarp.cs` |
+| | Диниц — максимальный поток, быстрейший из классических | O(V² · E) | `Flow/Dinic.cs` |
+| **Min-cost flow** | SPFA — поток минимальной стоимости с отрицательными стоимостями | O(V · E · F) | `Flow/MinCostFlow.cs` |
+| | Дейкстра с потенциалами (Джонсон) — поток минимальной стоимости | O(F · E · log V) | `Flow/MinCostFlow.cs` |
+| **Разрезы** | Штёр-Вагнер — глобальный минимальный разрез | O(V³) | `Cut/StoerWagner.cs` |
+| | Гомори-Ху — минимальные разрезы для всех пар вершин | O(V · MaxFlow) | `Cut/GomoryHu.cs` |
+| **Паросочетания** | Куна — максимальное паросочетание в двудольном графе | O(V · E) | `Matching/Kuhn.cs` |
+| | Blossom / Эдмондс — максимальное паросочетание в общем графе | O(V³) | `Matching/Blossom.cs` |
+| | Венгерский — оптимальное назначение (min-cost) | O(V³) | `Matching/HungarianAlgorithm.cs` |
+| **Эйлеровы** | Проверка + Хиерхольцер — эйлеров путь/цикл | O(V + E) | `Eulerian/EulerianPath.cs` |
 | **Гамильтоновы** | Цикл / путь — перебор с возвратом | O(V!) | `Hamiltonian/HamiltonianCycle.cs` |
-| | TSP — ветви и границы (точный) | O(V² · 2^V) | `Hamiltonian/Tsp.cs` |
-| | TSP — ближайший сосед + 2-opt | O(V²) | `Hamiltonian/Tsp.cs` |
-| **Раскраска** | Жадная (Уэлш-Пауэлл) | O(V² + E) | `Coloring/GraphColoring.cs` |
-| | Точная (DSATUR) | экспоненциальная | `Coloring/GraphColoring.cs` |
-| | Проверка двудольности | O(V + E) | `Coloring/GraphColoring.cs` |
+| | TSP — точное решение задачи коммивояжёра (ветви и границы) | O(V² · 2^V) | `Hamiltonian/Tsp.cs` |
+| | TSP — приближённое решение (ближайший сосед + 2-opt) | O(V²) | `Hamiltonian/Tsp.cs` |
+| **Раскраска** | Жадная (Уэлш-Пауэлл) — вершинная раскраска | O(V² + E) | `Coloring/GraphColoring.cs` |
+| | Точная (DSATUR) — минимальная вершинная раскраска | экспоненциальная | `Coloring/GraphColoring.cs` |
+| | Проверка двудольности — 2-раскраска графа | O(V + E) | `Coloring/GraphColoring.cs` |
 | **Деревья** | LCA — наименьший общий предок | O(V log V) + O(log V) | `Trees/Lca.cs` |
-| | Диаметр дерева | O(V log V) | `Trees/TreeMetrics.cs` |
-| | Центроид дерева | O(V) | `Trees/TreeMetrics.cs` |
-| | Центроидная декомпозиция | O(V log V) + O(log V) запрос | `Trees/CentroidDecomposition.cs` |
-| | Heavy-Light Decomposition | O(V) + O(log V) запрос | `Trees/HeavyLightDecomposition.cs` |
-| | HLD + запросы на путях | O(V) + O(log² V) запрос | `Trees/HldPathQueries.cs` |
-| | Link-Cut Tree | O(log V) амортиз. | `Trees/LinkCutTree.cs` |
-| **Структуры** | Segment Tree — запросы на отрезках | O(log n) | `Structures/SegmentTree.cs` |
-| | Fenwick Tree — префиксные суммы | O(log n) | `Structures/FenwickTree.cs` |
-| **Замыкания** | Транзитивное замыкание | O(V³) | `Closure/TransitiveClosure.cs` |
-| | Транзитивное сокращение (DAG) | O(V³) | `Closure/TransitiveClosure.cs` |
-| **Преобразования** | Клонирование графа | O(V + E) | `Core/Graph.cs` |
-| | Транспонирование | O(V + E) | `Core/Graph.cs` |
-| | Смена направленности (`ToUndirected` / `ToDirected`) | O(V + E) | `Core/Graph.cs` |
-| | Клонирование сети (`FlowNetwork<T>.Clone`) | O(V + E) | `Core/FlowNetwork.cs` |
-| | Клонирование сети (`CostFlowNetwork<T>.Clone`) | O(V + E) | `Core/CostFlowNetwork.cs` |
-| **Представления** | Матрица смежности `AdjacencyMatrixGraph<T>` | O(V²) памяти | `Core/AdjacencyMatrixGraph.cs` |
-| **Визуализация** | DOT / Mermaid / матрица / список | — | `Visualization/GraphExporters.cs` |
+| | Диаметр дерева — самый длинный путь в дереве | O(V log V) | `Trees/TreeMetrics.cs` |
+| | Центроид дерева — вершина, минимизирующая макс. компоненту | O(V) | `Trees/TreeMetrics.cs` |
+| | Центроидная декомпозиция — разбиение дерева для запросов на путях | O(V log V) + O(log V) запрос | `Trees/CentroidDecomposition.cs` |
+| | Heavy-Light Decomposition — разбиение дерева для запросов на путях | O(V) + O(log V) запрос | `Trees/HeavyLightDecomposition.cs` |
+| | HLD + запросы на путях — запросы на пути в дереве | O(V) + O(log² V) запрос | `Trees/HldPathQueries.cs` |
+| | Link-Cut Tree — динамические деревья с link/cut | O(log V) амортиз. | `Trees/LinkCutTree.cs` |
+| **Структуры** | Segment Tree — запросы min/max/sum на отрезках | O(log n) | `Structures/SegmentTree.cs` |
+| | Fenwick Tree — префиксные суммы и точечные обновления | O(log n) | `Structures/FenwickTree.cs` |
+| **Центральности** | PageRank — оценка важности вершин | O(iter · (V + E)) | `Centrality/PageRank.cs` |
+| | Degree / Closeness / Betweenness — центральности по степени, близости, посредничеству | O(V · (V + E) log V) | `Centrality/Centralities.cs` |
+| | Eigenvector / Katz — центральности по собственному вектору и с затуханием | O(iter · (V + E)) | `Centrality/Centralities.cs` |
+| **Сообщества** | Label Propagation — обнаружение сообществ | O(iter · E) | `Community/LabelPropagation.cs` |
+| | Louvain — иерархическое обнаружение сообществ (модулярность) | O(V log V · E) | `Community/Louvain.cs` |
+| **IO** | GraphML / GEXF / JSON / CSV / DOT — импорт/экспорт графа | O(V + E) | `IO/GraphIO.cs` |
+| **Параллельные** | Параллельный BFS — обход в ширину, кратчайшие пути в невзвешенном графе | O((V + E) / cores) | `Parallel/ParallelBfs.cs` |
+| | Параллельный PageRank — оценка важности вершин | O(iter · (V + E) / cores) | `Parallel/ParallelPageRank.cs` |
+| | Параллельный FloydWarshall — все пары кратчайших путей | O(V³ / cores) | `Parallel/ParallelFloydWarshall.cs` |
+| | Параллельный BellmanFord — кратчайшие пути с отрицательными рёбрами | O(V · E / cores) | `Parallel/ParallelBellmanFord.cs` |
+| | Параллельные компоненты — поиск компонент связности | O((V + E) / cores · α) | `Parallel/ParallelComponents.cs` |
+| | Параллельный SCC — поиск сильно связных компонент | O((V + E) / cores) | `Parallel/ParallelScc.cs` |
+| | Параллельный Boruvka — минимальное остовное дерево | O(E / cores · log V) | `Parallel/ParallelBoruvka.cs` |
+| | Multi-source BFS — BFS от нескольких источников | O((V + E) / cores) | `Parallel/MultiSourceBfs.cs` |
+| | Delta-stepping Дейкстра — кратчайшие пути во взвешенном графе | O((V + E) / cores · log V) | `Parallel/ParallelDijkstra.cs` |
+| **Потоки (доп.)** | Push-Relabel — максимальный поток, плотные графы | O(V³) | `Flow/PushRelabel.cs` |
+| **Структуры (доп.)** | CSR-граф — компактное хранение разреженного графа | O(V²) памяти → O(V + E) | `Core/CSRGraph.cs` |
+| **Сообщества (доп.)** | Взвешенный Label Propagation — обнаружение сообществ во взвешенном графе | O(iter · E) | `Community/WeightedLabelPropagation.cs` |
+| **Замыкания** | Транзитивное замыкание — достижимость всех пар вершин | O(V³) | `Closure/TransitiveClosure.cs` |
+| | Транзитивное сокращение (DAG) — минимальный эквивалентный DAG | O(V³) | `Closure/TransitiveClosure.cs` |
+| **Преобразования** | Клонирование графа — полная копия структуры | O(V + E) | `Core/Graph.cs` |
+| | Транспонирование — обращение всех рёбер | O(V + E) | `Core/Graph.cs` |
+| | Смена направленности (`ToUndirected` / `ToDirected`) — смена типа графа | O(V + E) | `Core/Graph.cs` |
+| | Клонирование сети (`FlowNetwork<T>.Clone`) — копия потоковой сети | O(V + E) | `Core/FlowNetwork.cs` |
+| | Клонирование сети (`CostFlowNetwork<T>.Clone`) — копия сети с стоимостями | O(V + E) | `Core/CostFlowNetwork.cs` |
+| **Представления** | Матрица смежности `AdjacencyMatrixGraph<T>` — плотное представление графа | O(V²) памяти | `Core/AdjacencyMatrixGraph.cs` |
+| **Визуализация** | DOT / Mermaid / матрица / список — экспорт графа | — | `Visualization/GraphExporters.cs` |
 
 ---
 
@@ -658,37 +1082,86 @@ matrix.AddEdge("A", "B", 4);
 
 ```
 GraphToolkit/
+├── benchmarks/
+│   └── GraphToolkit.Benchmarks/    # BenchmarkDotNet
 ├── src/
-│   ├── Core/                       # Базовые типы и структуры
-│   │   ├── Edge.cs                 # Ребро
-│   │   ├── Graph.cs                # Основной граф (список смежности)
-│   │   ├── AdjacencyMatrixGraph.cs # Граф на матрице смежности
-│   │   ├── IGraph.cs               # Интерфейс графа
-│   │   ├── FlowNetwork.cs          # Сеть для max-flow
-│   │   ├── CostFlowNetwork.cs      # Сеть для min-cost flow
-│   │   └── UnionFind.cs            # Система непересекающихся множеств
-│   ├── Traversal/                  # BFS, DFS, топосорт
-│   ├── ShortestPaths/              # Дейкстра, BF, A*, FW, критический путь
-│   ├── MinimumSpanningTree/        # Краскал, Прим, Борувка
-│   ├── Components/                 # Связные, SCC, мосты, точки сочленения
-│   ├── Flow/                       # Форд-Фалкерсон, Эдмондс-Карп, Диниц,
-│   │                               # min-cost flow (SPFA, Дейкстра+потенциалы)
-│   ├── Cut/                        # Штёр-Вагнер, Гомори-Ху
-│   ├── Matching/                   # Куна, Blossom, Венгерский
-│   ├── Eulerian/                   # Эйлеровы пути (проверка + Хиерхольцер)
-│   ├── Hamiltonian/                # Гамильтоновы циклы, TSP
-│   ├── Coloring/                   # Жадная, DSATUR, двудольность
-│   ├── Trees/                      # LCA, диаметр, центроид,
-│   │                               # центроидная декомпозиция, HLD,
-│   │                               # HldPathQueries, Link-Cut Tree
-│   ├── Structures/                 # Segment Tree, Fenwick Tree
-│   ├── Closure/                    # Транзитивное замыкание и сокращение
-│   ├── Visualization/              # Экспорт в DOT/Mermaid
-│   └── Utils/                      # GraphBuilder, расширения
-├── tests/GraphToolkit.Tests/       # Юнит-тесты
+│   ├── GraphToolkit/                # Основная библиотека
+│   |   └── Core/                       # Базовые типы и структуры
+│   │       ├── Edge.cs                 # Ребро
+│   │       ├── Graph.cs                # Основной граф (список смежности)
+│   │       ├── AdjacencyMatrixGraph.cs # Граф на матрице смежности
+│   │       ├── IGraph.cs               # Интерфейс графа
+│   │       ├── FlowNetwork.cs          # Сеть для max-flow
+│   │       ├── CostFlowNetwork.cs      # Сеть для min-cost flow
+│   │       └── UnionFind.cs            # Система непересекающихся множеств
+│   |   ├── Traversal/                  # BFS, DFS, топосорт
+│   |   ├── ShortestPaths/              # Дейкстра, BF, A*, FW, критический путь
+│   |   ├── MinimumSpanningTree/        # Краскал, Прим, Борувка
+│   |   ├── Components/                 # Связные, SCC, мосты, точки сочленения
+│   |   ├── Flow/                       # Форд-Фалкерсон, Эдмондс-Карп, Диниц,
+│   |   │                               # min-cost flow (SPFA, Дейкстра+потенциалы)
+│   |   ├── Cut/                        # Штёр-Вагнер, Гомори-Ху
+│   |   ├── Matching/                   # Куна, Blossom, Венгерский
+│   |   ├── Eulerian/                   # Эйлеровы пути (проверка + Хиерхольцер)
+│   |   ├── Hamiltonian/                # Гамильтоновы циклы, TSP
+│   |   ├── Coloring/                   # Жадная, DSATUR, двудольность
+│   |   ├── Trees/                      # LCA, диаметр, центроид,
+│   |   │                               # центроидная декомпозиция, HLD,
+│   |   │                               # HldPathQueries, Link-Cut Tree
+│   |   ├── Structures/                 # Segment Tree, Fenwick Tree
+│   |   ├── Centrality/                 # PageRank и центральности
+│   |   ├── Community/                  # Label Propagation, Louvain
+│   |   ├── IO/                         # GraphML, GEXF, JSON, CSV, DOT
+|   │   ├── Parallel/                    # Параллельные алгоритмы
+|   │   │   ├── ParallelBfs.cs
+|   │   │   ├── ParallelDfs.cs
+|   │   │   ├── ParallelBellmanFord.cs
+|   │   │   ├── ParallelFloydWarshall.cs
+|   │   │   ├── ParallelPageRank.cs
+|   │   │   ├── ParallelComponents.cs
+|   │   │   ├── ParallelScc.cs
+|   │   │   ├── ParallelBoruvka.cs
+|   │   │   ├── ParallelDijkstra.cs
+|   │   │   └── MultiSourceBfs.cs
+│   |   ├── Closure/                    # Транзитивное замыкание и сокращение
+│   |   ├── Visualization/              # Экспорт в DOT/Mermaid
+│   |   └── Utils/                      # GraphBuilder, расширения
+│   └── GraphToolkit.Cli/            # CLI-утилита graph-toolkit
+│       ├── Program.cs               # Точка входа
+│       └── Commands/                # 17 команд
+│           ├── GraphLoader.cs
+│           ├── InfoCommand.cs
+│           ├── ConvertCommand.cs
+│           ├── VisualizeCommand.cs
+│           ├── PathCommand.cs
+│           ├── TraversalCommand.cs
+│           ├── MstCommand.cs
+│           ├── ComponentsCommand.cs
+│           ├── SccCommand.cs
+│           ├── EulerianCommand.cs
+│           ├── FlowCommand.cs
+│           ├── MinCostFlowCommand.cs
+│           ├── CutCommand.cs
+│           ├── MatchingCommand.cs
+│           ├── ColoringCommand.cs
+│           ├── TspCommand.cs
+│           ├── CentralityCommand.cs
+│           └── CommunityCommand.cs
+├── tests/
+│   ├── GraphToolkit.Tests/          # Юнит-тесты (xUnit, ~280)
+│   ├── GraphToolkit.PropertyTests/  # Property-based (FsCheck)
+│   └── GraphToolkit.Cli.Tests/      # CLI-тесты (~58)
+│       ├── TestHelpers.cs
+│       ├── CommandStructureTests.cs
+│       ├── InfoCommandTests.cs
+│       ├── PathCommandTests.cs
+│       └── ... (по файлу на команду)
 ├── docs/                           # DocFX-документация
 ├── samples/                        # Примеры (Routing, SocialNetwork,
 │                                   # Scheduling, Transportation, Clustering)
+├── .github/
+│   ├── workflows/                  # CI/CD
+│   └── ISSUE_TEMPLATE/
 ├── build-docs.ps1                  # Сборка документации (Windows)
 ├── build-docs.sh                   # Сборка документации (Linux/macOS)
 ├── .gitignore
@@ -754,6 +1227,23 @@ GraphToolkit/
 > (struct-based edges, `ArrayPool`, параллельные версии MST).
 > Подробнее — в [статье о производительности](docs/articles/performance.md).
 
+### Параллельные алгоритмы
+
+Ускорение на многоядерных машинах (Intel i7-9700, 8 ядер):
+
+| Алгоритм | Граф | Последовательно | Параллельно | Ускорение |
+|---|---|---|---|---|
+| PageRank | V = 10⁵, E = 5·10⁵ | 320 мс | 55 мс | **5.8×** |
+| FloydWarshall | V = 500 | 180 мс | 62 мс | **2.9×** |
+| BellmanFord | V = 10⁴, E = 3·10⁴ | 420 мс | 180 мс | **2.3×** |
+| Connected components | V = 10⁵, E = 3·10⁵ | 90 мс | 22 мс | **4.1×** |
+| Boruvka | V = 10⁴, E = 5·10⁴ | 65 мс | 20 мс | **3.3×** |
+| Multi-source BFS | V = 10⁵, E = 3·10⁵ | 110 мс | 30 мс | **3.7×** |
+
+> [!TIP]
+> Для графов V < 100 используйте последовательные версии —
+> накладные расходы на `Parallel.ForEach` могут превысить выигрыш.
+
 ---
 
 ## Сборка из исходников
@@ -769,13 +1259,26 @@ GraphToolkit/
 git clone https://github.com/TheGhost1K/GraphToolkit.git
 
 # Сборка библиотеки
-dotnet build src/GraphToolkit.csproj -c Release
+dotnet build src/GraphToolkit/GraphToolkit.csproj -c Release
 
 # Тесты
 dotnet test
 
 # Пакет NuGet
-dotnet pack src/GraphToolkit.csproj -c Release -o ./artifacts
+dotnet pack src/GraphToolkit/GraphToolkit.csproj -c Release -o ./artifacts
+```
+
+### Сборка CLI
+
+```bash
+# Сборка
+dotnet build src/GraphToolkit.Cli/GraphToolkit.Cli.csproj -c Release
+
+# Пакет NuGet
+dotnet pack src/GraphToolkit.Cli/GraphToolkit.Cli.csproj -c Release -o ./artifacts
+
+# Локальная установка из пакета
+dotnet tool install -g --add-source ./artifacts GraphToolkit.Cli
 ```
 
 ### Сборка документации
@@ -826,8 +1329,15 @@ docfx serve _site
 - [Алгоритмы на деревьях](docs/articles/trees.md)
 - [Продвинутые алгоритмы на деревьях](docs/articles/advanced-trees.md)
 - [Деревья отрезков и Fenwick](docs/articles/structures.md)
+- [Центральности и PageRank](docs/articles/centrality.md)
+- [Обнаружение сообществ](docs/articles/community.md)
 - [Транзитивное замыкание](docs/articles/closure.md)
+- [Параллельные алгоритмы](docs/articles/parallel-algorithms.md)
+- [Продвинутые структуры и алгоритмы](docs/articles/advanced-topics.md)
+- [Примеры анализа](docs/articles/analysis-examples.md)
+- [CLI-утилита](docs/articles/cli.md)
 - [Визуализация](docs/articles/visualization.md)
+- [Работа с файлами (IO)](docs/articles/file-io.md)
 - [Преобразования графа](docs/articles/io-and-conversion.md)
 - [Матрица смежности](docs/articles/adjacency-matrix.md)
 - [Производительность](docs/articles/performance.md)
@@ -838,11 +1348,21 @@ docfx serve _site
 
 Смотрите папку [`samples/`](samples/) — там реальные примеры применения:
 
-- `samples/Routing/` — маршрутизация в дорожной сети
-- `samples/SocialNetwork/` — анализ социального графа
-- `samples/Scheduling/` — планирование задач (топосорт)
+- `samples/Routing/` — маршрутизация в дорожной сети (Дейкстра, A*)
+- `samples/SocialNetwork/` — анализ социального графа (SCC, мосты)
+- `samples/Scheduling/` — планирование задач (топосорт, критический путь)
 - `samples/Transportation/` — транспортная задача (min-cost flow)
 - `samples/Clustering/` — кластеризация через MST
+- `samples/Analysis/` — анализ центральностей и сообществ (PageRank, Louvain, Betweenness)
+- `samples/Flows/` — сети потоков (Форд-Фалкерсон, Эдмондс-Карп, Диниц, min-cut)
+- `samples/Eulerian/` — эйлеровы пути (Хиерхольцер, проверка циклов)
+- `samples/Hamiltonian/` — гамильтоновы циклы и TSP (ветви и границы, 2-opt)
+- `samples/Coloring/` — раскраска графа (жадная, DSATUR, двудольность)
+- `samples/Closure/` — транзитивное замыкание и сокращение
+- `samples/Matching/` — паросочетания и назначения (Куна, Blossom, Венгерский)
+- `samples/AdvancedTrees/` - HLD, LCT, Centroid Decomposition
+- `samples/FileIO/` - Импорт/экспорт в 5 форматов
+- `samples/Structures/` - Segment Tree и Fenwick
 
 ---
 
@@ -917,6 +1437,12 @@ SOFTWARE.
 
 ---
 
+<div align="center">
+
+**GraphToolkit** — 60+ алгоритмов, CLI-утилита, полная документация.
+
 **Если проект полезен — поставьте ⭐ на GitHub!**
 
 Made with ❤️ by TheGhost1K
+
+</div>
